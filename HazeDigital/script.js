@@ -1,11 +1,17 @@
 // DOM Yüklendikten sonra çalışacak fonksiyonlar
 document.addEventListener('DOMContentLoaded', function() {
+    // Dil yöneticisini başlat
+    window.languageManager = new LanguageManager();
+    
+    // Dark mode yöneticisini başlat
+    initDarkMode();
+    
     // Değişkenler
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('navMenu');
     const navigasyon = document.getElementById('navigasyon');
     const navBaglantilar = document.querySelectorAll('.nav-baglanti');
-    const iletisimForm = document.getElementaById('iletisimForm');
+    const iletisimForm = document.getElementById('iletisimForm');
     
     // Hamburger menu işlevselliği
     hamburger.addEventListener('click', function() {
@@ -596,6 +602,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // İletişim formu gönderme fonksiyonu
     function gonderIletisimFormu(form) {
+        const t = window.languageManager.translations[window.languageManager.currentLanguage];
+        
         // Form verilerini al
         const formVerisi = new FormData(form);
         const veri = {
@@ -607,27 +615,27 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Basit doğrulama
         if (!veri.ad || !veri.email || !veri.konu || !veri.mesaj) {
-            gosterBildirim('Lütfen tüm alanları doldurun.', 'error');
+            gosterBildirim(t.notifications.fillAllFields, 'error');
             return;
         }
         
         // Email doğrulaması
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(veri.email)) {
-            gosterBildirim('Lütfen geçerli bir e-posta adresi girin.', 'error');
+            gosterBildirim(t.notifications.invalidEmail, 'error');
             return;
         }
         
         // Mesaj uzunluğu kontrolü
         if (veri.mesaj.length < 10) {
-            gosterBildirim('Mesaj çok kısa. En az 10 karakter yazın.', 'error');
+            gosterBildirim(t.notifications.messageTooShort, 'error');
             return;
         }
         
         // Buton durumunu güncelle
         const buton = form.querySelector('.form-buton');
         const eskiMetin = buton.innerHTML;
-        buton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
+        buton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t.contact.form.sending}`;
         buton.disabled = true;
         
         // AJAX ile PHP'ye gönder
@@ -638,10 +646,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                gosterBildirim(data.message, 'success');
+                gosterBildirim(t.notifications.success, 'success');
                 form.reset();
             } else {
-                gosterBildirim(data.message, 'error');
+                gosterBildirim(t.notifications.error, 'error');
                 if (data.errors) {
                     data.errors.forEach(error => {
                         console.error('Form Hatası:', error);
@@ -651,7 +659,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Ağ Hatası:', error);
-            gosterBildirim('Bağlantı hatası oluştu. Lütfen daha sonra tekrar deneyin.', 'error');
+            gosterBildirim(t.notifications.networkError, 'error');
         })
         .finally(() => {
             // Buton durumunu eski haline getir
@@ -753,11 +761,109 @@ document.addEventListener('DOMContentLoaded', function() {
     ✨ Türkçe sınıf isimleri ile geliştirilmiştir
     🚀 Modern teknolojiler kullanılmıştır
     📱 Mobil uyumlu responsive tasarım
+    🌍 Çoklu dil desteği (TR, EN, ES, ZH)
+    🌙 Dark/Light mode desteği
     
     Geliştirici: [Adınız Soyadınız]
     İletişim: ornek@email.com
     `);
 });
+
+// Dark Mode Yönetim Sistemi
+function initDarkMode() {
+    // Dark mode durumunu kontrol et
+    const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
+    
+    // Dark mode toggle butonu oluştur
+    const darkModeToggle = document.createElement('button');
+    darkModeToggle.className = 'floating-btn dark-mode-toggle';
+    darkModeToggle.id = 'darkModeToggle';
+    darkModeToggle.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    darkModeToggle.title = 'Tema Değiştir';
+    
+    // Floating actions container'ına ekle
+    const floatingActions = document.querySelector('.floating-actions');
+    if (floatingActions) {
+        floatingActions.insertBefore(darkModeToggle, floatingActions.firstChild);
+    } else {
+        // Floating actions yoksa oluştur
+        const floatingContainer = document.createElement('div');
+        floatingContainer.className = 'floating-actions';
+        floatingContainer.appendChild(darkModeToggle);
+        document.body.appendChild(floatingContainer);
+    }
+    
+    // İlk yükleme durumunu ayarla
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+    }
+    
+    // Toggle event listener
+    darkModeToggle.addEventListener('click', function() {
+        toggleDarkMode();
+    });
+    
+    // Sistem tema tercihini kontrol et
+    if (!localStorage.getItem('darkMode')) {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDark) {
+            enableDarkMode();
+        }
+    }
+    
+    // Sistem tema değişikliklerini dinle
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('darkMode')) {
+            if (e.matches) {
+                enableDarkMode();
+            } else {
+                disableDarkMode();
+            }
+        }
+    });
+}
+
+function toggleDarkMode() {
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    
+    if (isDarkMode) {
+        disableDarkMode();
+    } else {
+        enableDarkMode();
+    }
+}
+
+function enableDarkMode() {
+    document.body.classList.add('dark-mode');
+    localStorage.setItem('darkMode', 'enabled');
+    
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    if (darkModeToggle) {
+        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+    
+    // Smooth transition
+    document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+    setTimeout(() => {
+        document.body.style.transition = '';
+    }, 300);
+}
+
+function disableDarkMode() {
+    document.body.classList.remove('dark-mode');
+    localStorage.setItem('darkMode', 'disabled');
+    
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    if (darkModeToggle) {
+        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    }
+    
+    // Smooth transition
+    document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+    setTimeout(() => {
+        document.body.style.transition = '';
+    }, 300);
+}
 
 // Service Worker kaydı (PWA özellikleri için - isteğe bağlı)
 if ('serviceWorker' in navigator) {

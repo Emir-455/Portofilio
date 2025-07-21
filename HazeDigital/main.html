@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="languages.js"></script>
 </head>
 <body>
     <!-- Scroll Progress Bar -->
@@ -21,11 +22,11 @@
                 <span class="logo-metin">Portfolio</span>
             </div>
             <ul class="nav-menu" id="navMenu">
-                <li><a href="#ana-sayfa" class="nav-baglanti aktif">Ana Sayfa</a></li>
-                <li><a href="#hakkimda" class="nav-baglanti">Hakkımda</a></li>
-                <li><a href="#projeler" class="nav-baglanti">Projeler</a></li>
-                <li><a href="#yetenekler" class="nav-baglanti">Yetenekler</a></li>
-                <li><a href="#iletisim" class="nav-baglanti">İletişim</a></li>
+                <li><a href="#ana-sayfa" class="nav-baglanti aktif" data-translate="nav.home">Ana Sayfa</a></li>
+                <li><a href="#hakkimda" class="nav-baglanti" data-translate="nav.about">Hakkımda</a></li>
+                <li><a href="#projeler" class="nav-baglanti" data-translate="nav.projects">Projeler</a></li>
+                <li><a href="#yetenekler" class="nav-baglanti" data-translate="nav.skills">Yetenekler</a></li>
+                <li><a href="#iletisim" class="nav-baglanti" data-translate="nav.contact">İletişim</a></li>
             </ul>
             <div class="hamburger" id="hamburger">
                 <span class="bar"></span>
@@ -41,21 +42,21 @@
             <div class="ana-icerik">
                 <div class="ana-metin">
                     <h1 class="ana-baslik">
-                        <span class="merhaba-metin">Merhaba, Ben</span>
-                        <span class="isim-metin">Emirhan Şık</span>
+                        <span class="merhaba-metin" data-translate="hero.greeting">Merhaba, Ben</span>
+                        <span class="isim-metin" data-translate="hero.name">Emirhan Şık</span>
                     </h1>
-                    <h2 class="meslek-baslik">Yazılım Geliştirici</h2>
-                    <p class="ana-aciklama">
+                    <h2 class="meslek-baslik" data-translate="hero.profession">Yazılım Geliştirici</h2>
+                    <p class="ana-aciklama" data-translate="hero.description">
                         Yazılım dünyasında iz bırakmak isteyen genç ve tutkulu bir geliştiriciyim. Bu sayfada kim olduğumu, neler yapmak istediğimi ve nasıl bir yolda ilerlediğimi samimi bir dille anlattım.
                     </p>
                     <div class="ana-butonlar">
                         <a href="#projeler" class="birincil-buton">
                             <i class="fas fa-code"></i>
-                            Projelerimi Gör
+                            <span data-translate="hero.viewProjects">Projelerimi Gör</span>
                         </a>
                         <a href="#iletisim" class="ikincil-buton">
                             <i class="fas fa-envelope"></i>
-                            İletişime Geç
+                            <span data-translate="hero.getInTouch">İletişime Geç</span>
                         </a>
                     </div>
                 </div>
@@ -78,7 +79,7 @@
             <div class="fare-ikonu">
                 <div class="tekerlek"></div>
             </div>
-            <span>Aşağı Kaydır</span>
+            <span data-translate="hero.scrollDown">Aşağı Kaydır</span>
         </div>
     </section>
 
@@ -86,8 +87,8 @@
     <section id="hakkimda" class="hakkimda-bolumu">
         <div class="konteyner">
             <div class="bolum-basligi">
-                <h2 class="baslik">Hakkımda</h2>
-                <p class="alt-baslik">Kim olduğumu ve neler yaptığımı öğrenin</p>
+                <h2 class="baslik" data-translate="about.title">Hakkımda</h2>
+                <p class="alt-baslik" data-translate="about.subtitle">Kim olduğumu ve neler yaptığımı öğrenin</p>
             </div>
             <div class="hakkimda-icerik">
                 <div class="hakkimda-metin">
@@ -100,58 +101,58 @@
                         </div>
                         <div class="capraz-kurdele">
                             <div class="kurdele-ici">
-                                <span class="kurdele-metin">Yeni Deneyim</span>
+                                <span class="kurdele-metin" data-translate="about.ribbonText">Yeni Deneyim</span>
                             </div>
                         </div>
                     </div>
-                    <h3 class="hakkimda-baslik">Merhaba! Ben Emirhan Şık</h3>
-                    <p class="hakkimda-paragraf">
+                    <h3 class="hakkimda-baslik" data-translate="about.greeting">Merhaba! Ben Emirhan Şık</h3>
+                    <p class="hakkimda-paragraf" data-translate="about.description1">
                         Ben Emirhan Şık. Yazılıma tutkuyla bağlı bir öğrenciyim. Henüz yolun başında olsam da hedeflerim net: Yazılım dünyasında ve ticaret alanında kendime sağlam bir yer edinmek istiyorum.
-
-                            Kendimi her gün geliştirmeye çalışan, hızlı düşünen ve yaptığı işe özen gösteren biriyim. Oyunlara olan ilgim, beni web tasarıma yönlendirdi. Renklerle, kodlarla ve fikirlerle çalışmak bana ilham veriyor.
                     </p>
-                    <p class="hakkimda-paragraf">
+                    <p class="hakkimda-paragraf" data-translate="about.description2">
+                        Kendimi her gün geliştirmeye çalışan, hızlı düşünen ve yaptığı işe özen gösteren biriyim. Oyunlara olan ilgim, beni web tasarıma yönlendirdi. Renklerle, kodlarla ve fikirlerle çalışmak bana ilham veriyor.
+                    </p>
+                    <p class="hakkimda-paragraf" data-translate="about.description3">
                         Zaman içinde fark ettim ki; sadece kod yazmak değil, aynı zamanda insanlara bir şey sunmak da beni motive ediyor. Bu yüzden portfolyo sitemi sadece kendimi tanıtmak için değil, aynı zamanda sunduğum hizmetleri paylaşmak için de oluşturuyorum.
-
-                        Yazılım ve ticaret benim için sadece meslek değil, bir yaşam tarzı. Bu yolda kararlı adımlarla ilerliyor, her gün yeni bir şey öğrenmeye açık kalıyorum.
-
-                        Gelecek beni bekliyor. Ben hazırım.
+                    </p>
+                    <p class="hakkimda-paragraf" data-translate="about.description4">
+                        Yazılım ve ticaret benim için sadece meslek değil, bir yaşam tarzı. Bu yolda kararlı adımlarla ilerliyor, her gün yeni bir şey öğrenmeye açık kalıyorum. Gelecek beni bekliyor. Ben hazırım.
                     </p>
                     <div class="kisisel-bilgiler">
                         <div class="bilgi-satiri">
-                            <span class="bilgi-etiket">Yaş:</span>
-                            <span class="bilgi-deger">17</span>
+                            <span class="bilgi-etiket" data-translate="about.age">Yaş:</span>
+                            <span class="bilgi-deger" data-translate="about.ageValue">17</span>
                         </div>
                         <div class="bilgi-satiri">
-                            <span class="bilgi-etiket">Şehir:</span>
-                            <span class="bilgi-deger">İstanbul, Türkiye</span>
+                            <span class="bilgi-etiket" data-translate="about.city">Şehir:</span>
+                            <span class="bilgi-deger" data-translate="about.cityValue">İstanbul, Türkiye</span>
                         </div>
                         <div class="bilgi-satiri">
-                            <span class="bilgi-etiket">Deneyim:</span>
-                            <span class="bilgi-deger">1 Yıl</span>
+                            <span class="bilgi-etiket" data-translate="about.experience">Deneyim:</span>
+                            <span class="bilgi-deger" data-translate="about.experienceValue">1 Yıl</span>
                         </div>
                         <div class="bilgi-satiri">
-                            <span class="bilgi-etiket">Freelance:</span>
-                            <span class="bilgi-deger">Müsait</span>
+                            <span class="bilgi-etiket" data-translate="about.freelance">Freelance:</span>
+                            <span class="bilgi-deger" data-translate="about.freelanceValue">Müsait</span>
                         </div>
                     </div>
                 </div>
                 <div class="hakkimda-istatistik">
                     <div class="istatistik-kutu">
                         <div class="istatistik-sayi" data-target="0">0</div>
-                        <div class="istatistik-etiket">Tamamlanan Proje</div>
+                        <div class="istatistik-etiket" data-translate="about.completedProjects">Tamamlanan Proje</div>
                     </div>
                     <div class="istatistik-kutu">
                         <div class="istatistik-sayi" data-target="0">0</div>
-                        <div class="istatistik-etiket">Mutlu Müşteri</div>
+                        <div class="istatistik-etiket" data-translate="about.happyClients">Mutlu Müşteri</div>
                     </div>
                     <div class="istatistik-kutu">
                         <div class="istatistik-sayi" data-target="0">0</div>
-                        <div class="istatistik-etiket">7/24 Destek</div>
+                        <div class="istatistik-etiket" data-translate="about.support">7/24 Destek</div>
                     </div>
                     <div class="istatistik-kutu">
                         <div class="istatistik-sayi" data-target="1">0</div>
-                        <div class="istatistik-etiket">Yıl Deneyim</div>
+                        <div class="istatistik-etiket" data-translate="about.yearsExperience">Yıl Deneyim</div>
                     </div>
                 </div>
             </div>
@@ -162,14 +163,14 @@
     <section id="projeler" class="projeler-bolumu">
         <div class="konteyner">
             <div class="bolum-basligi">
-                <h2 class="baslik">Projelerim</h2>
-                <p class="alt-baslik">Son çalışmalarım ve başarılı projelerim</p>
+                <h2 class="baslik" data-translate="projects.title">Projelerim</h2>
+                <p class="alt-baslik" data-translate="projects.subtitle">Son çalışmalarım ve başarılı projelerim</p>
             </div>
             <div class="proje-filtreleri">
-                <button class="filtre-buton aktif" data-filter="*">Tümü</button>
-                <button class="filtre-buton" data-filter=".web-tasarim">Web Tasarım</button>
-                <button class="filtre-buton" data-filter=".web-uygulama">Web Uygulama</button>
-                <button class="filtre-buton" data-filter=".e-ticaret">E-ticaret</button>
+                <button class="filtre-buton aktif" data-filter="*" data-translate="projects.all">Tümü</button>
+                <button class="filtre-buton" data-filter=".web-tasarim" data-translate="projects.webDesign">Web Tasarım</button>
+                <button class="filtre-buton" data-filter=".web-uygulama" data-translate="projects.webApp">Web Uygulama</button>
+                <button class="filtre-buton" data-filter=".e-ticaret" data-translate="projects.ecommerce">E-ticaret</button>
             </div>
             <div class="projeler-grid">
                 <div class="proje-kutu web-tasarim">
