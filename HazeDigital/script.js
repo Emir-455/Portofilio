@@ -158,11 +158,278 @@ document.addEventListener('DOMContentLoaded', function() {
                 const filtre = this.getAttribute('data-filter');
                 
                 projeKutulari.forEach(kutu => {
-                    if (filtre === '*' || kutu.classList.contains(filtre.substring(1))) {
-                        kutu.classList.remove('gizle');
-                        setTimeout(() => {
+                    // Önce tüm projeleri gizle
+                    kutu.style.opacity = '0';
+                    kutu.style.transform = 'scale(0.8)';
+                    
+                    setTimeout(() => {
+                        if (filtre === '*' || kutu.classList.contains(filtre.substring(1))) {
                             kutu.style.display = 'block';
-                        }, 100);
+                            setTimeout(() => {
+                                kutu.style.opacity = '1';
+                                kutu.style.transform = 'scale(1)';
+                            }, 50);
+                        } else {
+                            kutu.style.display = 'none';
+                        }
+                    }, 200);
+                });
+            });
+        });
+    }
+    
+    // Typing animasyonu
+    function typingAnimasyonu() {
+        const meslek = document.querySelector('.meslek-baslik');
+        const meslekler = ['Yazılım Geliştirici', 'Web Tasarımcı', 'Frontend Developer', 'UI/UX Designer'];
+        let mevcutMeslek = 0;
+        let mevcutHarf = 0;
+        let silmeModunda = false;
+        
+        function typeWriter() {
+            const metin = meslekler[mevcutMeslek];
+            
+            if (!silmeModunda) {
+                meslek.textContent = metin.substring(0, mevcutHarf + 1);
+                mevcutHarf++;
+                
+                if (mevcutHarf === metin.length) {
+                    setTimeout(() => {
+                        silmeModunda = true;
+                    }, 2000);
+                }
+            } else {
+                meslek.textContent = metin.substring(0, mevcutHarf - 1);
+                mevcutHarf--;
+                
+                if (mevcutHarf === 0) {
+                    silmeModunda = false;
+                    mevcutMeslek = (mevcutMeslek + 1) % meslekler.length;
+                }
+            }
+            
+            const hiz = silmeModunda ? 50 : 100;
+            setTimeout(typeWriter, hiz);
+        }
+        
+        setTimeout(typeWriter, 1000);
+    }
+    
+    // Smooth reveal animasyonu
+    function smoothRevealAnimasyonu() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        const revealElements = document.querySelectorAll('.reveal-element');
+        revealElements.forEach(el => observer.observe(el));
+    }
+    
+    // Paralaks efekti
+    function paralaksEfekti() {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const paralaksElementler = document.querySelectorAll('.paralaks');
+            
+            paralaksElementler.forEach(element => {
+                const hiz = element.dataset.speed || 0.5;
+                const yPos = -(scrolled * hiz);
+                element.style.transform = `translateY(${yPos}px)`;
+            });
+        });
+    }
+    
+    // Cursor takip efekti
+    function cursorTakipEfekti() {
+        const cursor = document.createElement('div');
+        cursor.className = 'custom-cursor';
+        document.body.appendChild(cursor);
+        
+        const cursorDot = document.createElement('div');
+        cursorDot.className = 'cursor-dot';
+        document.body.appendChild(cursorDot);
+        
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+        });
+        
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.1;
+            cursorY += (mouseY - cursorY) * 0.1;
+            
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+        
+        // Hover efektleri
+        const hoverElements = document.querySelectorAll('a, button, .proje-kutu, .kategori-kutu');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.classList.add('cursor-hover');
+                cursorDot.classList.add('cursor-hover');
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('cursor-hover');
+                cursorDot.classList.remove('cursor-hover');
+            });
+        });
+    }
+    
+    // Tilt efekti
+    function tiltEfekti() {
+        const tiltElements = document.querySelectorAll('.tilt-effect');
+        
+        tiltElements.forEach(element => {
+            element.addEventListener('mousemove', (e) => {
+                const rect = element.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                element.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+        });
+    }
+    
+    // Sayfa geçiş animasyonu
+    function sayfaGecisAnimasyonu() {
+        const pageLoader = document.createElement('div');
+        pageLoader.className = 'page-loader';
+        pageLoader.innerHTML = `
+            <div class="loader-content">
+                <div class="loader-logo">Portfolio</div>
+                <div class="loader-progress">
+                    <div class="progress-bar"></div>
+                </div>
+                <div class="loader-text">Yükleniyor...</div>
+            </div>
+        `;
+        document.body.appendChild(pageLoader);
+        
+        let progress = 0;
+        const progressBar = pageLoader.querySelector('.progress-bar');
+        
+        const interval = setInterval(() => {
+            progress += Math.random() * 15;
+            if (progress > 100) progress = 100;
+            
+            progressBar.style.width = progress + '%';
+            
+            if (progress === 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    pageLoader.classList.add('fade-out');
+                    setTimeout(() => {
+                        pageLoader.remove();
+                    }, 500);
+                }, 500);
+            }
+        }, 100);
+    }
+    
+    // Başlangıçta sayfa yüklenme animasyonu
+    if (document.readyState === 'loading') {
+        sayfaGecisAnimasyonu();
+    }
+    
+    // Tüm yeni animasyon fonksiyonlarını başlat
+    typingAnimasyonu();
+    smoothRevealAnimasyonu();
+    paralaksEfekti();
+    cursorTakipEfekti();
+    tiltEfekti();
+    
+    // Reveal elementlerine sınıf ekle
+    const revealTargets = document.querySelectorAll('.kategori-kutu, .proje-kutu, .istatistik-kutu, .bilgi-kutu, .hakkimda-baslik, .proje-baslik');
+    revealTargets.forEach(el => el.classList.add('reveal-element'));
+    
+    // Tilt efekti için sınıf ekle
+    const tiltTargets = document.querySelectorAll('.proje-kutu, .kategori-kutu, .istatistik-kutu');
+    tiltTargets.forEach(el => el.classList.add('tilt-effect'));
+    
+    // Paralaks efekti için sınıf ekle
+    const paralaksTargets = document.querySelectorAll('.animasyon-halka');
+    paralaksTargets.forEach((el, index) => {
+        el.classList.add('paralaks');
+        el.dataset.speed = (index + 1) * 0.1;
+    });
+    
+    // Proje kutularına transition ekle
+    projeKutulari.forEach(kutu => {
+        kutu.style.transition = 'all 0.3s ease, opacity 0.3s ease, transform 0.3s ease';
+    });
+    
+    // Mobil cihazlarda cursor efektlerini devre dışı bırak
+    if (window.innerWidth <= 768) {
+        const customCursor = document.querySelector('.custom-cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        if (customCursor) customCursor.style.display = 'none';
+        if (cursorDot) cursorDot.style.display = 'none';
+    }
+    
+    // Proje sayacı
+    function projeSayaci() {
+        const toplamProje = document.querySelectorAll('.proje-kutu').length;
+        const sayacElement = document.createElement('div');
+        sayacElement.className = 'proje-sayaci';
+        sayacElement.innerHTML = `<span class="sayac-sayi">${toplamProje}</span> <span class="sayac-metin">Proje</span>`;
+        
+        const projelerBaslik = document.querySelector('#projeler .bolum-basligi');
+        projelerBaslik.appendChild(sayacElement);
+        
+        // Filtreleme sırasında sayacı güncelle
+        const originalFiltreSistemi = projeFiltreSistemi;
+        projeFiltreSistemi = function() {
+            originalFiltreSistemi();
+            
+            const filtreButonlari = document.querySelectorAll('.filtre-buton');
+            filtreButonlari.forEach(buton => {
+                buton.addEventListener('click', function() {
+                    setTimeout(() => {
+                        const gorunenProjeler = document.querySelectorAll('.proje-kutu[style*="display: block"], .proje-kutu:not([style*="display: none"])');
+                        const filtre = this.getAttribute('data-filter');
+                        let sayac = 0;
+                        
+                        if (filtre === '*') {
+                            sayac = toplamProje;
+                        } else {
+                            sayac = document.querySelectorAll(`.proje-kutu${filtre}`).length;
+                        }
+                        
+                        sayacElement.querySelector('.sayac-sayi').textContent = sayac;
+                    }, 250);
+                });
+            });
+        };
+    }
+    
+    projeSayaci();
                     } else {
                         kutu.classList.add('gizle');
                     }
@@ -219,6 +486,57 @@ document.addEventListener('DOMContentLoaded', function() {
     yetenekBarAnimasyonu();
     projeFiltreSistemi();
     lazyLoadImages();
+    
+    // Scroll progress bar
+    const scrollProgress = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset;
+        const docHeight = document.body.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        scrollProgress.style.width = scrollPercent + '%';
+    });
+    
+    // Floating action buttons
+    const themeToggle = document.getElementById('themeToggle');
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    
+    // Tema değiştirme
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-theme');
+        const icon = themeToggle.querySelector('i');
+        if (document.body.classList.contains('dark-theme')) {
+            icon.className = 'fas fa-sun';
+            localStorage.setItem('theme', 'dark');
+        } else {
+            icon.className = 'fas fa-moon';
+            localStorage.setItem('theme', 'light');
+        }
+    });
+    
+    // Sayfa yüklendiğinde tema kontrolü
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-theme');
+        themeToggle.querySelector('i').className = 'fas fa-sun';
+    }
+    
+    // Yukarı çıkma butonu
+    scrollToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Floating butonların görünürlüğü
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            scrollToTopBtn.style.opacity = '1';
+            scrollToTopBtn.style.visibility = 'visible';
+        } else {
+            scrollToTopBtn.style.opacity = '0';
+            scrollToTopBtn.style.visibility = 'hidden';
+        }
+    });
     
     // Sayfa yüklendiğinde fade-in elementlerine sınıf ekle
     const fadeElements = document.querySelectorAll('.kategori-kutu, .proje-kutu, .istatistik-kutu, .bilgi-kutu');
