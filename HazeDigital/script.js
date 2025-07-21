@@ -381,6 +381,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Proje kutularına transition ekle
+    const projeKutulari = document.querySelectorAll('.proje-kutu');
     projeKutulari.forEach(kutu => {
         kutu.style.transition = 'all 0.3s ease, opacity 0.3s ease, transform 0.3s ease';
     });
@@ -430,54 +431,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     projeSayaci();
-                    } else {
-                        kutu.classList.add('gizle');
-                    }
-                });
-            });
-        });
-    }
     
     // İletişim formu işleme
     if (iletisimForm) {
         iletisimForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Form verilerini al
-            const formVerisi = new FormData(this);
-            const veri = {
-                ad: formVerisi.get('ad'),
-                email: formVerisi.get('email'),
-                konu: formVerisi.get('konu'),
-                mesaj: formVerisi.get('mesaj')
-            };
-            
-            // Basit doğrulama
-            if (!veri.ad || !veri.email || !veri.konu || !veri.mesaj) {
-                alert('Lütfen tüm alanları doldurun.');
-                return;
-            }
-            
-            // Email doğrulaması
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(veri.email)) {
-                alert('Lütfen geçerli bir e-posta adresi girin.');
-                return;
-            }
-            
-            // Buton durumunu güncelle
-            const buton = this.querySelector('.form-buton');
-            const eskiMetin = buton.innerHTML;
-            buton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
-            buton.disabled = true;
-            
-            // Simüle edilmiş form gönderimi (gerçek projede API çağrısı yapılır)
-            setTimeout(() => {
-                alert('Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağım.');
-                this.reset();
-                buton.innerHTML = eskiMetin;
-                buton.disabled = false;
-            }, 2000);
+            // Form gönderimi
+            gonderIletisimFormu(this);
         });
     }
     
@@ -486,57 +447,6 @@ document.addEventListener('DOMContentLoaded', function() {
     yetenekBarAnimasyonu();
     projeFiltreSistemi();
     lazyLoadImages();
-    
-    // Scroll progress bar
-    const scrollProgress = document.getElementById('scrollProgress');
-    window.addEventListener('scroll', () => {
-        const scrollTop = window.pageYOffset;
-        const docHeight = document.body.scrollHeight - window.innerHeight;
-        const scrollPercent = (scrollTop / docHeight) * 100;
-        scrollProgress.style.width = scrollPercent + '%';
-    });
-    
-    // Floating action buttons
-    const themeToggle = document.getElementById('themeToggle');
-    const scrollToTopBtn = document.getElementById('scrollToTop');
-    
-    // Tema değiştirme
-    themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-theme');
-        const icon = themeToggle.querySelector('i');
-        if (document.body.classList.contains('dark-theme')) {
-            icon.className = 'fas fa-sun';
-            localStorage.setItem('theme', 'dark');
-        } else {
-            icon.className = 'fas fa-moon';
-            localStorage.setItem('theme', 'light');
-        }
-    });
-    
-    // Sayfa yüklendiğinde tema kontrolü
-    if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark-theme');
-        themeToggle.querySelector('i').className = 'fas fa-sun';
-    }
-    
-    // Yukarı çıkma butonu
-    scrollToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
-    
-    // Floating butonların görünürlüğü
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            scrollToTopBtn.style.opacity = '1';
-            scrollToTopBtn.style.visibility = 'visible';
-        } else {
-            scrollToTopBtn.style.opacity = '0';
-            scrollToTopBtn.style.visibility = 'hidden';
-        }
-    });
     
     // Sayfa yüklendiğinde fade-in elementlerine sınıf ekle
     const fadeElements = document.querySelectorAll('.kategori-kutu, .proje-kutu, .istatistik-kutu, .bilgi-kutu');
@@ -644,6 +554,116 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Sayfa yukarı kaydırma butonunu etkinleştir
     sayfaYukariKaydir();
+    
+    // İletişim formu gönderme fonksiyonu
+    function gonderIletisimFormu(form) {
+        // Form verilerini al
+        const formVerisi = new FormData(form);
+        const veri = {
+            ad: formVerisi.get('ad'),
+            email: formVerisi.get('email'),
+            konu: formVerisi.get('konu'),
+            mesaj: formVerisi.get('mesaj')
+        };
+        
+        // Basit doğrulama
+        if (!veri.ad || !veri.email || !veri.konu || !veri.mesaj) {
+            gosterBildirim('Lütfen tüm alanları doldurun.', 'error');
+            return;
+        }
+        
+        // Email doğrulaması
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(veri.email)) {
+            gosterBildirim('Lütfen geçerli bir e-posta adresi girin.', 'error');
+            return;
+        }
+        
+        // Mesaj uzunluğu kontrolü
+        if (veri.mesaj.length < 10) {
+            gosterBildirim('Mesaj çok kısa. En az 10 karakter yazın.', 'error');
+            return;
+        }
+        
+        // Buton durumunu güncelle
+        const buton = form.querySelector('.form-buton');
+        const eskiMetin = buton.innerHTML;
+        buton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
+        buton.disabled = true;
+        
+        // AJAX ile PHP'ye gönder
+        fetch('mail.php', {
+            method: 'POST',
+            body: formVerisi
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                gosterBildirim(data.message, 'success');
+                form.reset();
+            } else {
+                gosterBildirim(data.message, 'error');
+                if (data.errors) {
+                    data.errors.forEach(error => {
+                        console.error('Form Hatası:', error);
+                    });
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Ağ Hatası:', error);
+            gosterBildirim('Bağlantı hatası oluştu. Lütfen daha sonra tekrar deneyin.', 'error');
+        })
+        .finally(() => {
+            // Buton durumunu eski haline getir
+            buton.innerHTML = eskiMetin;
+            buton.disabled = false;
+        });
+    }
+    
+    // Bildirim gösterme fonksiyonu
+    function gosterBildirim(mesaj, tip = 'info') {
+        // Mevcut bildirimleri temizle
+        const mevcutBildirimler = document.querySelectorAll('.bildirim');
+        mevcutBildirimler.forEach(bildirim => bildirim.remove());
+        
+        // Yeni bildirim oluştur
+        const bildirim = document.createElement('div');
+        bildirim.className = `bildirim bildirim-${tip}`;
+        
+        const ikon = tip === 'success' ? 'fas fa-check-circle' : 
+                    tip === 'error' ? 'fas fa-exclamation-circle' : 
+                    'fas fa-info-circle';
+        
+        bildirim.innerHTML = `
+            <div class="bildirim-icerik">
+                <i class="${ikon}"></i>
+                <span class="bildirim-mesaj">${mesaj}</span>
+                <button class="bildirim-kapat" onclick="this.parentElement.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        
+        // Sayfaya ekle
+        document.body.appendChild(bildirim);
+        
+        // Animasyon için kısa gecikme
+        setTimeout(() => {
+            bildirim.classList.add('goster');
+        }, 100);
+        
+        // Otomatik kaldırma (başarı mesajları için 5 saniye, hata için 7 saniye)
+        const sure = tip === 'success' ? 5000 : 7000;
+        setTimeout(() => {
+            if (bildirim.parentElement) {
+                bildirim.classList.remove('goster');
+                setTimeout(() => {
+                    bildirim.remove();
+                }, 300);
+            }
+        }, sure);
+    }
     
     // Klavye navigasyonu
     document.addEventListener('keydown', function(e) {

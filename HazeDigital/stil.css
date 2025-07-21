@@ -1666,3 +1666,109 @@ body {
     border-color: var(--birincil-renk);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
+
+/* Bildirim Sistemi */
+.bildirim {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    min-width: 300px;
+    max-width: 500px;
+    background: white;
+    border-radius: var(--radius-orta);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 10001;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: all 0.3s ease;
+    border-left: 4px solid var(--birincil-renk);
+}
+
+.bildirim.goster {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.bildirim-success {
+    border-left-color: var(--basarili-renk);
+}
+
+.bildirim-error {
+    border-left-color: var(--hata-renk);
+}
+
+.bildirim-icerik {
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.bildirim-icerik i {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.bildirim-success .bildirim-icerik i {
+    color: var(--basarili-renk);
+}
+
+.bildirim-error .bildirim-icerik i {
+    color: var(--hata-renk);
+}
+
+.bildirim-mesaj {
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--koyu-renk);
+}
+
+.bildirim-kapat {
+    background: none;
+    border: none;
+    color: var(--gri-renk);
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: var(--gecis-hizli);
+    flex-shrink: 0;
+}
+
+.bildirim-kapat:hover {
+    background: var(--acik-renk);
+    color: var(--koyu-renk);
+}
+
+/* Dark theme için bildirim */
+.dark-theme .bildirim {
+    background: var(--beyaz-renk);
+    color: var(--koyu-renk);
+}
+
+.dark-theme .bildirim-mesaj {
+    color: var(--koyu-renk);
+}
+
+.dark-theme .bildirim-kapat:hover {
+    background: var(--acik-renk);
+}
+
+/* Mobil için bildirim */
+@media (max-width: 768px) {
+    .bildirim {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+        max-width: none;
+    }
+    
+    .bildirim-icerik {
+        padding: 12px 15px;
+    }
+    
+    .bildirim-mesaj {
+        font-size: 13px;
+    }
+}
