@@ -248,6 +248,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Cursor takip efekti
     function cursorTakipEfekti() {
+        // Mobil cihazlarda cursor efektini devre dışı bırak
+        if (window.innerWidth <= 1024 || 'ontouchstart' in window) {
+            return;
+        }
+        
         const cursor = document.createElement('div');
         cursor.className = 'custom-cursor';
         document.body.appendChild(cursor);
@@ -256,20 +261,30 @@ document.addEventListener('DOMContentLoaded', function() {
         cursorDot.className = 'cursor-dot';
         document.body.appendChild(cursorDot);
         
-        let mouseX = 0, mouseY = 0;
+        let mouseX = 0, mouseY = 0, dotX = 0, dotY = 0;
         let cursorX = 0, cursorY = 0;
         
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            
-            cursorDot.style.left = mouseX + 'px';
-            cursorDot.style.top = mouseY + 'px';
         });
         
+        // Dot için ayrı animasyon
+        function animateDot() {
+            dotX += (mouseX - dotX) * 0.8;
+            dotY += (mouseY - dotY) * 0.8;
+            
+            cursorDot.style.left = dotX + 'px';
+            cursorDot.style.top = dotY + 'px';
+            
+            requestAnimationFrame(animateDot);
+        }
+        animateDot();
+        
+        // Cursor için ayrı animasyon
         function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.1;
-            cursorY += (mouseY - cursorY) * 0.1;
+            cursorX += (mouseX - cursorX) * 0.15;
+            cursorY += (mouseY - cursorY) * 0.15;
             
             cursor.style.left = cursorX + 'px';
             cursor.style.top = cursorY + 'px';
@@ -278,16 +293,40 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         animateCursor();
         
+        // Sayfa dışına çıkınca gizle
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+            cursorDot.style.opacity = '0';
+        });
+        
+        document.addEventListener('mouseenter', () => {
+            cursor.style.opacity = '1';
+            cursorDot.style.opacity = '1';
+        });
+        
         // Hover efektleri
-        const hoverElements = document.querySelectorAll('a, button, .proje-kutu, .kategori-kutu');
+        const hoverElements = document.querySelectorAll('a, button, .proje-kutu, .kategori-kutu, .istatistik-kutu, .bilgi-kutu, .sosyal-link');
         hoverElements.forEach(el => {
             el.addEventListener('mouseenter', () => {
                 cursor.classList.add('cursor-hover');
                 cursorDot.classList.add('cursor-hover');
+                el.style.cursor = 'none';
             });
             el.addEventListener('mouseleave', () => {
                 cursor.classList.remove('cursor-hover');
                 cursorDot.classList.remove('cursor-hover');
+                el.style.cursor = 'auto';
+            });
+        });
+        
+        // Text hover efekti
+        const textElements = document.querySelectorAll('h1, h2, h3, p, span');
+        textElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.classList.add('cursor-text');
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('cursor-text');
             });
         });
     }
