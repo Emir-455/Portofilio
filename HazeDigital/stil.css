@@ -2465,7 +2465,7 @@ body {
 }
 
 /* Mobil Optimizasyonları */
-@media (max-width: 768px) {
+@media (max-width: 1024px), (pointer: coarse) {
     .custom-cursor,
     .cursor-dot {
         display: none !important;
@@ -2473,22 +2473,6 @@ body {
     
     .tilt-effect {
         transform: none !important;
-    }
-    
-    .floating-actions {
-        bottom: 20px;
-        right: 20px;
-    }
-    
-    .floating-btn {
-        width: 45px;
-        height: 45px;
-        font-size: 16px;
-    }
-    
-    .proje-sayaci {
-        font-size: 0.9em;
-        padding: 6px 12px;
     }
 }
 
