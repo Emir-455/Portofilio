@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const navMenu = document.getElementById('navMenu');
     const navigasyon = document.getElementById('navigasyon');
     const navBaglantilar = document.querySelectorAll('.nav-baglanti');
-    const iletisimForm = document.getElementById('iletisimForm');
+    const iletisimForm = document.getElementaById('iletisimForm');
     
     // Hamburger menu işlevselliği
     hamburger.addEventListener('click', function() {
