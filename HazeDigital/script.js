@@ -12,6 +12,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Dil yöneticisini başlat
     dilYoneticisiniBaslat();
     
+    // Sayfa yüklendiğinde mevcut dili uygula
+    const mevcutDil = localStorage.getItem('secilenDil') || 'tr';
+    if (window.languageManager) {
+        window.languageManager.changeLanguage(mevcutDil);
+    }
+    
     // Karanlık mod yöneticisini başlat
     karanlıkModBaslat();
     
@@ -553,8 +559,35 @@ function dilGuncelle(dil) {
         }
     });
     
-    // Çevirileri güncelle (languages.js dosyasından)
-    if (window.languageManager) {
-        window.languageManager.changeLanguage(dil);
+    // Çevirileri güncelle
+    ceviriGuncelle(dil);
+}
+
+// Çeviri güncelleme fonksiyonu
+function ceviriGuncelle(dil) {
+    if (!window.translations || !window.translations[dil]) {
+        console.error('Çeviri bulunamadı:', dil);
+        return;
     }
+    
+    const t = window.translations[dil];
+    
+    // Tüm data-translate elementlerini güncelle
+    document.querySelectorAll('[data-translate]').forEach(element => {
+        const key = element.getAttribute('data-translate');
+        const translation = getCeviriByCeviriAnahtari(t, key);
+        
+        if (translation) {
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                element.placeholder = translation;
+            } else {
+                element.textContent = translation;
+            }
+        }
+    });
+}
+
+// Nested object'ten değer alma fonksiyonu
+function getCeviriByCeviriAnahtari(obj, key) {
+    return key.split('.').reduce((o, k) => o && o[k], obj);
 }

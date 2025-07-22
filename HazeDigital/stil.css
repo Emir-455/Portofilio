@@ -75,6 +75,29 @@ body.karanlik-mod {
     color: var(--karanlik-metin);
 }
 
+/* Karanlık Mod - Metin Renkleri */
+body.karanlik-mod .merhaba-metin,
+body.karanlik-mod .ana-aciklama,
+body.karanlik-mod .alt-baslik,
+body.karanlik-mod .hakkimda-paragraf,
+body.karanlik-mod .bilgi-metin,
+body.karanlik-mod .istatistik-etiket,
+body.karanlik-mod .footer-alt-metin {
+    color: var(--karanlik-ikincil-metin);
+}
+
+body.karanlik-mod .ana-baslik,
+body.karanlik-mod .meslek-baslik,
+body.karanlik-mod .baslik,
+body.karanlik-mod .hakkimda-baslik,
+body.karanlik-mod .kategori-baslik,
+body.karanlik-mod .yetenek-adi,
+body.karanlik-mod .bilgi-baslik,
+body.karanlik-mod .sosyal-baslik,
+body.karanlik-mod .bilgi-etiket {
+    color: var(--karanlik-metin);
+}
+
 body.karanlik-mod .navigasyon {
     background-color: rgba(15, 23, 42, 0.95);
 }
@@ -104,6 +127,42 @@ body.karanlik-mod .form-textarea::placeholder {
     color: var(--karanlik-ikincil-metin);
 }
 
+/* Karanlık Mod - Navigasyon Linkleri */
+body.karanlik-mod .nav-baglanti {
+    color: var(--karanlik-metin);
+}
+
+body.karanlik-mod .nav-baglanti:hover,
+body.karanlik-mod .nav-baglanti.aktif {
+    color: var(--birincil-renk);
+}
+
+body.karanlik-mod .logo {
+    color: var(--birincil-renk);
+}
+
+/* Karanlık Mod - Dil Seçici */
+body.karanlik-mod .dil-buton {
+    color: var(--birincil-renk);
+    border-color: rgba(37, 99, 235, 0.3);
+}
+
+body.karanlik-mod .dil-buton:hover {
+    background-color: rgba(37, 99, 235, 0.1);
+}
+
+body.karanlik-mod .dil-secenegi {
+    color: var(--karanlik-metin);
+}
+
+body.karanlik-mod .dil-secenegi:hover {
+    background-color: rgba(37, 99, 235, 0.1);
+}
+
+/* Karanlık Mod - Hamburger */
+body.karanlik-mod .hamburger .bar {
+    background-color: var(--karanlik-metin);
+}
 /* Scroll Progress Bar */
 .scroll-progress {
     position: fixed;

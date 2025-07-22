@@ -771,3 +771,11 @@ class LanguageManager {
 
 // Global değişken olarak dil yöneticisini export et
 window.languageManager = null;
+
+// Çevirileri global olarak erişilebilir yap
+window.translations = translations;
+
+// Sayfa yüklendiğinde dil yöneticisini başlat
+document.addEventListener('DOMContentLoaded', function() {
+    window.languageManager = new LanguageManager();
+});
