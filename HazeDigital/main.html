@@ -28,6 +28,11 @@
                 <li><a href="#yetenekler" class="nav-baglanti" data-translate="nav.skills">Yetenekler</a></li>
                 <li><a href="#iletisim" class="nav-baglanti" data-translate="nav.contact">İletişim</a></li>
             </ul>
+            <div class="nav-butonlar">
+                <button class="tema-degistir-buton" id="temaDegistirButon" title="Tema Değiştir">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
             <div class="hamburger" id="hamburger">
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -63,10 +68,7 @@
                 <div class="ana-gorsel">
                     <div class="profil-resmi">
                         <div class="resim-cerceve">
-                            <img data-src="" alt="Profil Resmi" class="lazy-image">
-                            <div class="image-placeholder">
-                                <div class="loading-spinner"></div>
-                            </div>
+                            <img src="https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Profil Resmi">
                         </div>
                         <div class="animasyon-halka halka-1">Güvenli</div>
                         <div class="animasyon-halka halka-2">Kaliteli</div>
@@ -94,10 +96,7 @@
                 <div class="hakkimda-metin">
                     <div class="hakkimda-fotograf-konteyner">
                         <div class="hakkimda-fotograf">
-                            <img data-src="https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Hakkımda Fotoğraf" class="lazy-image">
-                            <div class="image-placeholder">
-                                <div class="loading-spinner"></div>
-                            </div>
+                            <img src="https://images.pexels.com/photos/3785077/pexels-photo-3785077.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Hakkımda Fotoğraf">
                         </div>
                         <div class="capraz-kurdele">
                             <div class="kurdele-ici">
@@ -175,13 +174,10 @@
             <div class="projeler-grid">
                 <div class="proje-kutu web-tasarim">
                     <div class="proje-resmi">
-                        <img data-src="https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=400" alt="E-ticaret Projesi" class="lazy-image">
-                        <div class="image-placeholder">
-                            <div class="loading-spinner"></div>
-                        </div>
+                        <img src="https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=600" alt="E-ticaret Projesi">
                         <div class="proje-overlay">
-                            <h3 class="proje-baslik">Modern E-ticaret Sitesi</h3>
-                            <p class="proje-aciklama">Kullanıcı dostu arayüz ve güvenli ödeme sistemi ile geliştirilmiş kapsamlı e-ticaret platformu. Ürün yönetimi, sepet işlemleri ve sipariş takibi özellikleri.</p>
+                            <h3 class="proje-baslik" data-translate="projects.projectTitles.ecommerce">Modern E-ticaret Sitesi</h3>
+                            <p class="proje-aciklama" data-translate="projects.projectDescriptions.ecommerce">Kullanıcı dostu arayüz ve güvenli ödeme sistemi ile geliştirilmiş kapsamlı e-ticaret platformu.</p>
                             <div class="proje-teknolojiler">
                                 <span class="teknoloji">React</span>
                                 <span class="teknoloji">Node.js</span>
@@ -192,11 +188,11 @@
                             <div class="proje-baglantilar">
                                 <a href="#" class="proje-link">
                                     <i class="fas fa-external-link-alt"></i>
-                                    Canlı Demo
+                                    <span data-translate="projects.liveDemo">Canlı Demo</span>
                                 </a>
                                 <a href="#" class="proje-link">
                                     <i class="fab fa-github"></i>
-                                    GitHub
+                                    <span data-translate="projects.github">GitHub</span>
                                 </a>
                             </div>
                         </div>
@@ -205,13 +201,10 @@
                 
                 <div class="proje-kutu web-uygulama">
                     <div class="proje-resmi">
-                        <img data-src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Proje Yönetim Sistemi" class="lazy-image">
-                        <div class="image-placeholder">
-                            <div class="loading-spinner"></div>
-                        </div>
+                        <img src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Proje Yönetim Sistemi">
                         <div class="proje-overlay">
-                            <h3 class="proje-baslik">Proje Yönetim Sistemi</h3>
-                            <p class="proje-aciklama">Takım çalışması için geliştirilmiş kapsamlı proje yönetim platformu. Görev atama, zaman takibi, dosya paylaşımı ve gerçek zamanlı bildirimler.</p>
+                            <h3 class="proje-baslik" data-translate="projects.projectTitles.projectManagement">Proje Yönetim Sistemi</h3>
+                            <p class="proje-aciklama" data-translate="projects.projectDescriptions.projectManagement">Takım çalışması için geliştirilmiş kapsamlı proje yönetim platformu.</p>
                             <div class="proje-teknolojiler">
                                 <span class="teknoloji">Vue.js</span>
                                 <span class="teknoloji">Laravel</span>
@@ -222,11 +215,11 @@
                             <div class="proje-baglantilar">
                                 <a href="#" class="proje-link">
                                     <i class="fas fa-external-link-alt"></i>
-                                    Canlı Demo
+                                    <span data-translate="projects.liveDemo">Canlı Demo</span>
                                 </a>
                                 <a href="#" class="proje-link">
                                     <i class="fab fa-github"></i>
-                                    GitHub
+                                    <span data-translate="projects.github">GitHub</span>
                                 </a>
                             </div>
                         </div>
@@ -235,13 +228,10 @@
 
                 <div class="proje-kutu web-tasarim">
                     <div class="proje-resmi">
-                        <img data-src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Kurumsal Web Sitesi" class="lazy-image">
-                        <div class="image-placeholder">
-                            <div class="loading-spinner"></div>
-                        </div>
+                        <img src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Kurumsal Web Sitesi">
                         <div class="proje-overlay">
-                            <h3 class="proje-baslik">Kurumsal Web Sitesi</h3>
-                            <p class="proje-aciklama">Şirket kimliğini yansıtan modern tasarım, SEO optimizasyonu ve çoklu dil desteği ile kurumsal web sitesi. CMS entegrasyonu ve analitik raporlama.</p>
+                            <h3 class="proje-baslik" data-translate="projects.projectTitles.corporate">Kurumsal Web Sitesi</h3>
+                            <p class="proje-aciklama" data-translate="projects.projectDescriptions.corporate">Şirket kimliğini yansıtan modern tasarım, SEO optimizasyonu ve çoklu dil desteği ile kurumsal web sitesi.</p>
                             <div class="proje-teknolojiler">
                                 <span class="teknoloji">HTML5</span>
                                 <span class="teknoloji">CSS3</span>
@@ -253,11 +243,11 @@
                             <div class="proje-baglantilar">
                                 <a href="#" class="proje-link">
                                     <i class="fas fa-external-link-alt"></i>
-                                    Canlı Demo
+                                    <span data-translate="projects.liveDemo">Canlı Demo</span>
                                 </a>
                                 <a href="#" class="proje-link">
                                     <i class="fab fa-github"></i>
-                                    GitHub
+                                    <span data-translate="projects.github">GitHub</span>
                                 </a>
                             </div>
                         </div>
@@ -266,13 +256,10 @@
                 
                 <div class="proje-kutu e-ticaret">
                     <div class="proje-resmi">
-                        <img data-src="https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=400" alt="E-ticaret Dashboard" class="lazy-image">
-                        <div class="image-placeholder">
-                            <div class="loading-spinner"></div>
-                        </div>
+                        <img src="https://images.pexels.com/photos/265087/pexels-photo-265087.jpeg?auto=compress&cs=tinysrgb&w=600" alt="E-ticaret Dashboard">
                         <div class="proje-overlay">
-                            <h3 class="proje-baslik">E-ticaret Admin Paneli</h3>
-                            <p class="proje-aciklama">Satış analitikleri, stok yönetimi ve müşteri takibi için geliştirilmiş kapsamlı admin paneli. Gerçek zamanlı raporlama ve dashboard özellikleri.</p>
+                            <h3 class="proje-baslik" data-translate="projects.projectTitles.adminPanel">E-ticaret Admin Paneli</h3>
+                            <p class="proje-aciklama" data-translate="projects.projectDescriptions.adminPanel">Satış analitikleri, stok yönetimi ve müşteri takibi için geliştirilmiş kapsamlı admin paneli.</p>
                             <div class="proje-teknolojiler">
                                 <span class="teknoloji">React</span>
                                 <span class="teknoloji">Redux</span>
@@ -283,11 +270,11 @@
                             <div class="proje-baglantilar">
                                 <a href="#" class="proje-link">
                                     <i class="fas fa-external-link-alt"></i>
-                                    Canlı Demo
+                                    <span data-translate="projects.liveDemo">Canlı Demo</span>
                                 </a>
                                 <a href="#" class="proje-link">
                                     <i class="fab fa-github"></i>
-                                    GitHub
+                                    <span data-translate="projects.github">GitHub</span>
                                 </a>
                             </div>
                         </div>
@@ -296,13 +283,10 @@
 
                 <div class="proje-kutu web-tasarim">
                     <div class="proje-resmi">
-                        <img data-src="https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Blog Platformu" class="lazy-image">
-                        <div class="image-placeholder">
-                            <div class="loading-spinner"></div>
-                        </div>
+                        <img src="https://images.pexels.com/photos/267350/pexels-photo-267350.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Blog Platformu">
                         <div class="proje-overlay">
-                            <h3 class="proje-baslik">Çok Dilli Blog Platformu</h3>
-                            <p class="proje-aciklama">İçerik yönetimi ve SEO optimizasyonu ile geliştirilmiş çok dilli blog platformu. Yazar paneli, kategori yönetimi ve sosyal medya entegrasyonu.</p>
+                            <h3 class="proje-baslik" data-translate="projects.projectTitles.blog">Çok Dilli Blog Platformu</h3>
+                            <p class="proje-aciklama" data-translate="projects.projectDescriptions.blog">İçerik yönetimi ve SEO optimizasyonu ile geliştirilmiş çok dilli blog platformu.</p>
                             <div class="proje-teknolojiler">
                                 <span class="teknoloji">Next.js</span>
                                 <span class="teknoloji">TypeScript</span>
@@ -314,11 +298,11 @@
                             <div class="proje-baglantilar">
                                 <a href="#" class="proje-link">
                                     <i class="fas fa-external-link-alt"></i>
-                                    Canlı Demo
+                                    <span data-translate="projects.liveDemo">Canlı Demo</span>
                                 </a>
                                 <a href="#" class="proje-link">
                                     <i class="fab fa-github"></i>
-                                    GitHub
+                                    <span data-translate="projects.github">GitHub</span>
                                 </a>
                             </div>
                         </div>
@@ -327,13 +311,10 @@
 
                 <div class="proje-kutu web-uygulama">
                     <div class="proje-resmi">
-                        <img data-src="https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Analitik Dashboard" class="lazy-image">
-                        <div class="image-placeholder">
-                            <div class="loading-spinner"></div>
-                        </div>
+                        <img src="https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Analitik Dashboard">
                         <div class="proje-overlay">
-                            <h3 class="proje-baslik">Analitik Dashboard</h3>
-                            <p class="proje-aciklama">Büyük veri analizi ve görselleştirme için geliştirilmiş interaktif dashboard. Gerçek zamanlı grafikler, filtreleme ve export özellikleri.</p>
+                            <h3 class="proje-baslik" data-translate="projects.projectTitles.analytics">Analitik Dashboard</h3>
+                            <p class="proje-aciklama" data-translate="projects.projectDescriptions.analytics">Büyük veri analizi ve görselleştirme için geliştirilmiş interaktif dashboard.</p>
                             <div class="proje-teknolojiler">
                                 <span class="teknoloji">React</span>
                                 <span class="teknoloji">D3.js</span>
@@ -345,11 +326,11 @@
                             <div class="proje-baglantilar">
                                 <a href="#" class="proje-link">
                                     <i class="fas fa-external-link-alt"></i>
-                                    Canlı Demo
+                                    <span data-translate="projects.liveDemo">Canlı Demo</span>
                                 </a>
                                 <a href="#" class="proje-link">
                                     <i class="fab fa-github"></i>
-                                    GitHub
+                                    <span data-translate="projects.github">GitHub</span>
                                 </a>
                             </div>
                         </div>
@@ -358,13 +339,10 @@
 
                 <div class="proje-kutu api-gelistirme">
                     <div class="proje-resmi">
-                        <img data-src="https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Mikroservis Mimarisi" class="lazy-image">
-                        <div class="image-placeholder">
-                            <div class="loading-spinner"></div>
-                        </div>
+                        <img src="https://images.pexels.com/photos/577585/pexels-photo-577585.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Mikroservis Mimarisi">
                         <div class="proje-overlay">
-                            <h3 class="proje-baslik">Mikroservis Mimarisi</h3>
-                            <p class="proje-aciklama">Yüksek trafikli uygulamalar için geliştirilmiş ölçeklenebilir mikroservis mimarisi. Container orchestration ve CI/CD pipeline entegrasyonu.</p>
+                            <h3 class="proje-baslik" data-translate="projects.projectTitles.microservices">Mikroservis Mimarisi</h3>
+                            <p class="proje-aciklama" data-translate="projects.projectDescriptions.microservices">Yüksek trafikli uygulamalar için geliştirilmiş ölçeklenebilir mikroservis mimarisi.</p>
                             <div class="proje-teknolojiler">
                                 <span class="teknoloji">Docker</span>
                                 <span class="teknoloji">Kubernetes</span>
@@ -376,11 +354,11 @@
                             <div class="proje-baglantilar">
                                 <a href="#" class="proje-link">
                                     <i class="fas fa-external-link-alt"></i>
-                                    Canlı Demo
+                                    <span data-translate="projects.liveDemo">Canlı Demo</span>
                                 </a>
                                 <a href="#" class="proje-link">
                                     <i class="fab fa-github"></i>
-                                    GitHub
+                                    <span data-translate="projects.github">GitHub</span>
                                 </a>
                             </div>
                         </div>
@@ -394,8 +372,8 @@
     <section id="yetenekler" class="yetenekler-bolumu">
         <div class="konteyner">
             <div class="bolum-basligi">
-                <h2 class="baslik">Yeteneklerim</h2>
-                <p class="alt-baslik">Uzman olduğum teknolojiler ve araçlar</p>
+                <h2 class="baslik" data-translate="skills.title">Yeteneklerim</h2>
+                <p class="alt-baslik" data-translate="skills.subtitle">Uzman olduğum teknolojiler ve araçlar</p>
             </div>
             <div class="yetenekler-icerik">
                 <div class="yetenek-kategorileri">
@@ -403,7 +381,7 @@
                         <div class="kategori-ikonu">
                             <i class="fas fa-code"></i>
                         </div>
-                        <h3 class="kategori-baslik">Frontend</h3>
+                        <h3 class="kategori-baslik" data-translate="skills.frontend">Frontend</h3>
                         <div class="yetenek-listesi">
                             <div class="yetenek-item">
                                 <div class="yetenek-baslik">
@@ -430,7 +408,7 @@
                         <div class="kategori-ikonu">
                             <i class="fas fa-server"></i>
                         </div>
-                        <h3 class="kategori-baslik">Backend</h3>
+                        <h3 class="kategori-baslik" data-translate="skills.backend">Backend</h3>
                         <div class="yetenek-listesi">
                             <div class="yetenek-item">
                                 <div class="yetenek-baslik">
@@ -457,7 +435,7 @@
                         <div class="kategori-ikonu">
                             <i class="fas fa-database"></i>
                         </div>
-                        <h3 class="kategori-baslik">Veritabanı</h3>
+                        <h3 class="kategori-baslik" data-translate="skills.database">Veritabanı</h3>
                         <div class="yetenek-listesi">
                             <div class="yetenek-item">
                                 <div class="yetenek-baslik">
@@ -488,8 +466,8 @@
     <section id="iletisim" class="iletisim-bolumu">
         <div class="konteyner">
             <div class="bolum-basligi">
-                <h2 class="baslik">İletişim</h2>
-                <p class="alt-baslik">Benimle iletişime geçin ve projelerinizi konuşalım</p>
+                <h2 class="baslik" data-translate="contact.title">İletişim</h2>
+                <p class="alt-baslik" data-translate="contact.subtitle">Benimle iletişime geçin ve projelerinizi konuşalım</p>
             </div>
             <div class="iletisim-icerik">
                 <div class="iletisim-bilgileri">
@@ -498,8 +476,8 @@
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div class="bilgi-detay">
-                            <h4 class="bilgi-baslik">Adres</h4>
-                            <p class="bilgi-metin">İstanbul, Türkiye</p>
+                            <h4 class="bilgi-baslik" data-translate="contact.address">Adres</h4>
+                            <p class="bilgi-metin" data-translate="contact.addressValue">İstanbul, Türkiye</p>
                         </div>
                     </div>
                     <div class="bilgi-kutu">
@@ -507,8 +485,8 @@
                             <i class="fas fa-phone"></i>
                         </div>
                         <div class="bilgi-detay">
-                            <h4 class="bilgi-baslik">Telefon</h4>
-                            <p class="bilgi-metin">+90 555 123 45 67</p>
+                            <h4 class="bilgi-baslik" data-translate="contact.phone">Telefon</h4>
+                            <p class="bilgi-metin" data-translate="contact.phoneValue">+90 555 123 45 67</p>
                         </div>
                     </div>
                     <div class="bilgi-kutu">
@@ -516,12 +494,12 @@
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div class="bilgi-detay">
-                            <h4 class="bilgi-baslik">E-posta</h4>
-                            <p class="bilgi-metin">ornek@email.com</p>
+                            <h4 class="bilgi-baslik" data-translate="contact.email">E-posta</h4>
+                            <p class="bilgi-metin" data-translate="contact.emailValue">ornek@email.com</p>
                         </div>
                     </div>
                     <div class="sosyal-medya">
-                        <h4 class="sosyal-baslik">Sosyal Medya</h4>
+                        <h4 class="sosyal-baslik" data-translate="contact.socialMedia">Sosyal Medya</h4>
                         <div class="sosyal-baglantilar">
                             <a href="#" class="sosyal-link">
                                 <i class="fab fa-linkedin-in"></i>
@@ -541,20 +519,20 @@
                 <div class="iletisim-formu">
                     <form class="form" id="iletisimForm">
                         <div class="form-grubu">
-                            <input type="text" id="ad" name="ad" class="form-input" placeholder="Adınız" required>
+                            <input type="text" id="ad" name="ad" class="form-input" data-translate="contact.form.name" placeholder="Adınız" required>
                         </div>
                         <div class="form-grubu">
-                            <input type="email" id="email" name="email" class="form-input" placeholder="E-posta Adresiniz" required>
+                            <input type="email" id="email" name="email" class="form-input" data-translate="contact.form.email" placeholder="E-posta Adresiniz" required>
                         </div>
                         <div class="form-grubu">
-                            <input type="text" id="konu" name="konu" class="form-input" placeholder="Konu" required>
+                            <input type="text" id="konu" name="konu" class="form-input" data-translate="contact.form.subject" placeholder="Konu" required>
                         </div>
                         <div class="form-grubu">
-                            <textarea id="mesaj" name="mesaj" class="form-textarea" placeholder="Mesajınız" rows="5" required></textarea>
+                            <textarea id="mesaj" name="mesaj" class="form-textarea" data-translate="contact.form.message" placeholder="Mesajınız" rows="5" required></textarea>
                         </div>
                         <button type="submit" class="form-buton">
                             <i class="fas fa-paper-plane"></i>
-                            Mesaj Gönder
+                            <span data-translate="contact.form.send">Mesaj Gönder</span>
                         </button>
                     </form>
                 </div>
@@ -567,7 +545,7 @@
         <div class="konteyner">
             <div class="footer-icerik">
                 <p class="footer-metin">
-                    &copy; 2024 Adınız Soyadınız. <span data-translate="footer.copyright">Tüm hakları saklıdır.</span>
+                    &copy; 2024 Emirhan Şık. <span data-translate="footer.copyright">Tüm hakları saklıdır.</span>
                 </p>
                 <p class="footer-alt-metin" data-translate="footer.madeWith">
                     ❤️ ile Türkiye'de kodlandı
@@ -576,7 +554,10 @@
         </div>
     </footer>
     
-    <!-- Floating Action Buttons - JavaScript ile oluşturulacak -->
+    <!-- Yukarı Çık Butonu -->
+    <button class="yukari-cik-buton" id="yukariCikButon" title="Yukarı Çık">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <script src="script.js"></script>
 </body>

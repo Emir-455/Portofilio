@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.languageManager = new LanguageManager();
     
     // Dark mode yöneticisini başlat
-    initDarkMode();
+    karanlıkModBaslat();
     
     // Değişkenler
     const hamburger = document.getElementById('hamburger');
@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const navigasyon = document.getElementById('navigasyon');
     const navBaglantilar = document.querySelectorAll('.nav-baglanti');
     const iletisimForm = document.getElementById('iletisimForm');
+    const temaDegistirButon = document.getElementById('temaDegistirButon');
+    const yukariCikButon = document.getElementById('yukariCikButon');
     
     // Hamburger menu işlevselliği
     hamburger.addEventListener('click', function() {
@@ -27,12 +29,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Scroll'da navigasyon efekti
+    // Scroll'da navigasyon efekti ve scroll progress
     window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
+        const scrollTop = window.pageYOffset;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        
+        // Scroll progress bar güncelle
+        const scrollProgress = document.getElementById('scrollProgress');
+        if (scrollProgress) {
+            scrollProgress.style.width = scrollPercent + '%';
+        }
+        
+        // Navigasyon arka plan efekti
+        if (scrollTop > 50) {
             navigasyon.classList.add('scrolled');
         } else {
             navigasyon.classList.remove('scrolled');
+        }
+        
+        // Yukarı çık butonu görünürlüğü
+        if (scrollTop > 300) {
+            yukariCikButon.classList.add('goster');
+        } else {
+            yukariCikButon.classList.remove('goster');
         }
         
         // Aktif bölümü belirleme
@@ -40,6 +60,14 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Görünme animasyonları
         gorunmeAnimasyonlari();
+    });
+    
+    // Yukarı çık butonu işlevselliği
+    yukariCikButon.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     });
     
     // Smooth scroll fonksiyonu
@@ -73,9 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const height = element.offsetHeight;
                 
                 if (scrollPosition >= offsetTop && scrollPosition < offsetTop + height) {
-                    // Tüm linklerden aktif sınıfını kaldır
                     navBaglantilar.forEach(link => link.classList.remove('aktif'));
-                    // Mevcut linke aktif sınıfını ekle
                     navLink.classList.add('aktif');
                 }
             }
@@ -84,14 +110,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Görünme animasyonları
     function gorunmeAnimasyonlari() {
-        const animasyonElementleri = document.querySelectorAll('.fade-in');
+        const animasyonElementleri = document.querySelectorAll('.animasyon-element');
         
         animasyonElementleri.forEach(element => {
             const elementTop = element.getBoundingClientRect().top;
             const elementVisible = 150;
             
             if (elementTop < window.innerHeight - elementVisible) {
-                element.classList.add('görünür');
+                element.classList.add('gorunur');
             }
         });
     }
@@ -137,12 +163,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (entry.isIntersecting) {
                     const bar = entry.target;
                     const genislik = bar.getAttribute('data-width');
+                    
+                    // Animasyon gecikmesi ekle
                     setTimeout(() => {
                         bar.style.width = genislik + '%';
-                    }, 200);
+                        bar.style.opacity = '1';
+                    }, 300);
+                    
                     observer.unobserve(bar);
                 }
             });
+        }, {
+            threshold: 0.3
         });
         
         yetenekBarlari.forEach(bar => {
@@ -164,7 +196,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const filtre = this.getAttribute('data-filter');
                 
                 projeKutulari.forEach(kutu => {
-                    // Önce tüm projeleri gizle
                     kutu.style.opacity = '0';
                     kutu.style.transform = 'scale(0.8)';
                     
@@ -180,14 +211,41 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }, 200);
                 });
+                
+                // Proje sayacını güncelle
+                projeSayaciniGuncelle(filtre);
             });
         });
     }
     
+    // Proje sayacını güncelle
+    function projeSayaciniGuncelle(filtre) {
+        const sayacElement = document.querySelector('.proje-sayaci .sayac-sayi');
+        if (sayacElement) {
+            const toplamProje = document.querySelectorAll('.proje-kutu').length;
+            let sayac = 0;
+            
+            if (filtre === '*') {
+                sayac = toplamProje;
+            } else {
+                sayac = document.querySelectorAll(`.proje-kutu${filtre}`).length;
+            }
+            
+            sayacElement.textContent = sayac;
+        }
+    }
+    
     // Typing animasyonu
-    function typingAnimasyonu() {
+    function yazmaAnimasyonu() {
         const meslek = document.querySelector('.meslek-baslik');
-        const meslekler = ['Yazılım Geliştirici', 'Web Tasarımcı', 'Frontend Developer', 'UI/UX Designer'];
+        if (!meslek) return;
+        
+        const meslekler = [
+            'Yazılım Geliştirici', 
+            'Web Tasarımcı', 
+            'Frontend Developer', 
+            'UI/UX Designer'
+        ];
         let mevcutMeslek = 0;
         let mevcutHarf = 0;
         let silmeModunda = false;
@@ -221,384 +279,45 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(typeWriter, 1000);
     }
     
-    // Smooth reveal animasyonu
-    function smoothRevealAnimasyonu() {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('reveal');
-                }
-            });
-        }, {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        });
-        
-        const revealElements = document.querySelectorAll('.reveal-element');
-        revealElements.forEach(el => observer.observe(el));
-    }
-    
-    // Paralaks efekti
-    function paralaksEfekti() {
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const paralaksElementler = document.querySelectorAll('.paralaks');
-            
-            paralaksElementler.forEach(element => {
-                const hiz = element.dataset.speed || 0.5;
-                const yPos = -(scrolled * hiz);
-                element.style.transform = `translateY(${yPos}px)`;
-            });
-        });
-    }
-    
-    // Cursor takip efekti
-    function cursorTakipEfekti() {
-        // Mobil cihazlarda cursor efektini devre dışı bırak
-        if (window.innerWidth <= 1024 || 'ontouchstart' in window) {
-            return;
-        }
-        
-        const cursor = document.createElement('div');
-        cursor.className = 'custom-cursor';
-        document.body.appendChild(cursor);
-        
-        const cursorDot = document.createElement('div');
-        cursorDot.className = 'cursor-dot';
-        document.body.appendChild(cursorDot);
-        
-        let mouseX = 0, mouseY = 0, dotX = 0, dotY = 0;
-        let cursorX = 0, cursorY = 0;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-        
-        // Dot için ayrı animasyon
-        function animateDot() {
-            dotX += (mouseX - dotX) * 0.8;
-            dotY += (mouseY - dotY) * 0.8;
-            
-            cursorDot.style.left = dotX + 'px';
-            cursorDot.style.top = dotY + 'px';
-            
-            requestAnimationFrame(animateDot);
-        }
-        animateDot();
-        
-        // Cursor için ayrı animasyon
-        function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.15;
-            cursorY += (mouseY - cursorY) * 0.15;
-            
-            cursor.style.left = cursorX + 'px';
-            cursor.style.top = cursorY + 'px';
-            
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-        
-        // Sayfa dışına çıkınca gizle
-        document.addEventListener('mouseleave', () => {
-            cursor.style.opacity = '0';
-            cursorDot.style.opacity = '0';
-        });
-        
-        document.addEventListener('mouseenter', () => {
-            cursor.style.opacity = '1';
-            cursorDot.style.opacity = '1';
-        });
-        
-        // Hover efektleri
-        const hoverElements = document.querySelectorAll('a, button, .proje-kutu, .kategori-kutu, .istatistik-kutu, .bilgi-kutu, .sosyal-link');
-        hoverElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.classList.add('cursor-hover');
-                cursorDot.classList.add('cursor-hover');
-                el.style.cursor = 'none';
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.classList.remove('cursor-hover');
-                cursorDot.classList.remove('cursor-hover');
-                el.style.cursor = 'auto';
-            });
-        });
-        
-        // Text hover efekti
-        const textElements = document.querySelectorAll('h1, h2, h3, p, span');
-        textElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.classList.add('cursor-text');
-            });
-            el.addEventListener('mouseleave', () => {
-                cursor.classList.remove('cursor-text');
-            });
-        });
-    }
-    
-    // Tilt efekti
-    function tiltEfekti() {
-        const tiltElements = document.querySelectorAll('.tilt-effect');
-        
-        tiltElements.forEach(element => {
-            element.addEventListener('mousemove', (e) => {
-                const rect = element.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
-                
-                element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
-            });
-            
-            element.addEventListener('mouseleave', () => {
-                element.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-            });
-        });
-    }
-    
-    // Sayfa geçiş animasyonu
-    function sayfaGecisAnimasyonu() {
-        const pageLoader = document.createElement('div');
-        pageLoader.className = 'page-loader';
-        pageLoader.innerHTML = `
-            <div class="loader-content">
-                <div class="loader-logo">Portfolio</div>
-                <div class="loader-progress">
-                    <div class="progress-bar"></div>
-                </div>
-                <div class="loader-text">Yükleniyor...</div>
-            </div>
-        `;
-        document.body.appendChild(pageLoader);
-        
-        let progress = 0;
-        const progressBar = pageLoader.querySelector('.progress-bar');
-        
-        const interval = setInterval(() => {
-            progress += Math.random() * 15;
-            if (progress > 100) progress = 100;
-            
-            progressBar.style.width = progress + '%';
-            
-            if (progress === 100) {
-                clearInterval(interval);
-                setTimeout(() => {
-                    pageLoader.classList.add('fade-out');
-                    setTimeout(() => {
-                        pageLoader.remove();
-                    }, 500);
-                }, 500);
-            }
-        }, 100);
-    }
-    
-    // Başlangıçta sayfa yüklenme animasyonu
-    if (document.readyState === 'loading') {
-        sayfaGecisAnimasyonu();
-    }
-    
-    // Tüm yeni animasyon fonksiyonlarını başlat
-    typingAnimasyonu();
-    smoothRevealAnimasyonu();
-    paralaksEfekti();
-    cursorTakipEfekti();
-    tiltEfekti();
-    
-    // Reveal elementlerine sınıf ekle
-    const revealTargets = document.querySelectorAll('.kategori-kutu, .proje-kutu, .istatistik-kutu, .bilgi-kutu, .hakkimda-baslik, .proje-baslik');
-    revealTargets.forEach(el => el.classList.add('reveal-element'));
-    
-    // Tilt efekti için sınıf ekle
-    const tiltTargets = document.querySelectorAll('.proje-kutu, .kategori-kutu, .istatistik-kutu');
-    tiltTargets.forEach(el => el.classList.add('tilt-effect'));
-    
-    // Paralaks efekti için sınıf ekle
-    const paralaksTargets = document.querySelectorAll('.animasyon-halka');
-    paralaksTargets.forEach((el, index) => {
-        el.classList.add('paralaks');
-        el.dataset.speed = (index + 1) * 0.1;
-    });
-    
-    // Proje kutularına transition ekle
-    const projeKutulari = document.querySelectorAll('.proje-kutu');
-    projeKutulari.forEach(kutu => {
-        kutu.style.transition = 'all 0.3s ease, opacity 0.3s ease, transform 0.3s ease';
-    });
-    
-    // Mobil cihazlarda cursor efektlerini devre dışı bırak
-    if (window.innerWidth <= 768) {
-        const customCursor = document.querySelector('.custom-cursor');
-        const cursorDot = document.querySelector('.cursor-dot');
-        if (customCursor) customCursor.style.display = 'none';
-        if (cursorDot) cursorDot.style.display = 'none';
-    }
-    
-    // Proje sayacı
-    function projeSayaci() {
+    // Proje sayacı oluştur
+    function projeSayaciOlustur() {
         const toplamProje = document.querySelectorAll('.proje-kutu').length;
         const sayacElement = document.createElement('div');
         sayacElement.className = 'proje-sayaci';
-        sayacElement.innerHTML = `<span class="sayac-sayi">${toplamProje}</span> <span class="sayac-metin">Proje</span>`;
+        sayacElement.innerHTML = `
+            <span class="sayac-sayi">${toplamProje}</span> 
+            <span class="sayac-metin" data-translate="projects.project">Proje</span>
+        `;
         
         const projelerBaslik = document.querySelector('#projeler .bolum-basligi');
-        projelerBaslik.appendChild(sayacElement);
-        
-        // Filtreleme sırasında sayacı güncelle
-        const originalFiltreSistemi = projeFiltreSistemi;
-        projeFiltreSistemi = function() {
-            originalFiltreSistemi();
-            
-            const filtreButonlari = document.querySelectorAll('.filtre-buton');
-            filtreButonlari.forEach(buton => {
-                buton.addEventListener('click', function() {
-                    setTimeout(() => {
-                        const gorunenProjeler = document.querySelectorAll('.proje-kutu[style*="display: block"], .proje-kutu:not([style*="display: none"])');
-                        const filtre = this.getAttribute('data-filter');
-                        let sayac = 0;
-                        
-                        if (filtre === '*') {
-                            sayac = toplamProje;
-                        } else {
-                            sayac = document.querySelectorAll(`.proje-kutu${filtre}`).length;
-                        }
-                        
-                        sayacElement.querySelector('.sayac-sayi').textContent = sayac;
-                    }, 250);
-                });
-            });
-        };
+        if (projelerBaslik) {
+            projelerBaslik.appendChild(sayacElement);
+        }
     }
-    
-    projeSayaci();
     
     // İletişim formu işleme
     if (iletisimForm) {
         iletisimForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Form gönderimi
             gonderIletisimFormu(this);
         });
     }
+    
+    // Animasyon elementlerine sınıf ekle
+    const animasyonHedefleri = document.querySelectorAll(
+        '.kategori-kutu, .proje-kutu, .istatistik-kutu, .bilgi-kutu, .hakkimda-baslik'
+    );
+    animasyonHedefleri.forEach(el => el.classList.add('animasyon-element'));
     
     // Tüm animasyon fonksiyonlarını başlat
     istatistikAnimasyonu();
     yetenekBarAnimasyonu();
     projeFiltreSistemi();
-    lazyLoadImages();
-    
-    // Sayfa yüklendiğinde fade-in elementlerine sınıf ekle
-    const fadeElements = document.querySelectorAll('.kategori-kutu, .proje-kutu, .istatistik-kutu, .bilgi-kutu');
-    fadeElements.forEach(element => {
-        element.classList.add('fade-in');
-    });
+    yazmaAnimasyonu();
+    projeSayaciOlustur();
     
     // İlk yükleme için animasyonları çalıştır
     gorunmeAnimasyonlari();
-    
-    // Lazy loading fonksiyonu
-    function lazyLoadImages() {
-        const lazyImages = document.querySelectorAll('.lazy-image');
-        
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    const placeholder = img.nextElementSibling;
-                    
-                    // Gerçek resim src'sini ayarla
-                    img.src = img.getAttribute('data-src');
-                    
-                    // Resim yüklendiğinde
-                    img.onload = function() {
-                        img.classList.add('loaded');
-                        if (placeholder && placeholder.classList.contains('image-placeholder')) {
-                            placeholder.classList.add('hidden');
-                        }
-                    };
-                    
-                    // Hata durumunda
-                    img.onerror = function() {
-                        if (placeholder && placeholder.classList.contains('image-placeholder')) {
-                            placeholder.innerHTML = '<i class="fas fa-image" style="font-size: 24px; color: #9ca3af;"></i>';
-                        }
-                    };
-                    
-                    observer.unobserve(img);
-                }
-            });
-        }, {
-            rootMargin: '50px'
-        });
-        
-        lazyImages.forEach(img => {
-            imageObserver.observe(img);
-        });
-    }
-    
-    // Sayfa yukarı kaydırma fonksiyonu (isteğe bağlı)
-    function sayfaYukariKaydir() {
-        const yukariButon = document.createElement('button');
-        yukariButon.innerHTML = '<i class="fas fa-arrow-up"></i>';
-        yukariButon.className = 'yukari-buton';
-        yukariButon.style.cssText = `
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--birincil-renk), var(--ikincil-renk));
-            color: white;
-            border: none;
-            border-radius: 50%;
-            font-size: 18px;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-        `;
-        
-        document.body.appendChild(yukariButon);
-        
-        // Scroll'da buton görünürlüğünü kontrol et
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 300) {
-                yukariButon.style.opacity = '1';
-                yukariButon.style.visibility = 'visible';
-            } else {
-                yukariButon.style.opacity = '0';
-                yukariButon.style.visibility = 'hidden';
-            }
-        });
-        
-        // Buton tıklandığında sayfayı yukarı kaydır
-        yukariButon.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-        
-        // Hover efekti
-        yukariButon.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-3px)';
-        });
-        
-        yukariButon.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
-    }
-    
-    // Sayfa yukarı kaydırma butonunu etkinleştir
-    sayfaYukariKaydir();
     
     // İletişim formu gönderme fonksiyonu
     function gonderIletisimFormu(form) {
@@ -662,7 +381,6 @@ document.addEventListener('DOMContentLoaded', function() {
             gosterBildirim(t.notifications.networkError, 'error');
         })
         .finally(() => {
-            // Buton durumunu eski haline getir
             buton.innerHTML = eskiMetin;
             buton.disabled = false;
         });
@@ -692,15 +410,12 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         `;
         
-        // Sayfaya ekle
         document.body.appendChild(bildirim);
         
-        // Animasyon için kısa gecikme
         setTimeout(() => {
             bildirim.classList.add('goster');
         }, 100);
         
-        // Otomatik kaldırma (başarı mesajları için 5 saniye, hata için 7 saniye)
         const sure = tip === 'success' ? 5000 : 7000;
         setTimeout(() => {
             if (bildirim.parentElement) {
@@ -714,7 +429,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Klavye navigasyonu
     document.addEventListener('keydown', function(e) {
-        // ESC tuşu ile mobil menüyü kapat
         if (e.key === 'Escape' && navMenu.classList.contains('active')) {
             hamburger.classList.remove('active');
             navMenu.classList.remove('active');
@@ -731,9 +445,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Lazy loading for images (modern tarayıcılar için)
-    // Bu bölüm artık lazyLoadImages() fonksiyonu ile değiştirildi
-    
     // Performance optimization: Debounce scroll events
     function debounce(func, wait) {
         let timeout;
@@ -747,14 +458,6 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
     
-    // Optimize scroll event
-    const optimizeScrollHandler = debounce(function() {
-        aktifBolumBelirle();
-        gorunmeAnimasyonlari();
-    }, 10);
-    
-    window.addEventListener('scroll', optimizeScrollHandler);
-    
     // Console'da hoş geldin mesajı
     console.log(`
     🎨 Portfolyo Web Sitesi
@@ -764,98 +467,68 @@ document.addEventListener('DOMContentLoaded', function() {
     🌍 Çoklu dil desteği (TR, EN, ES, ZH)
     🌙 Dark/Light mode desteği
     
-    Geliştirici: [Adınız Soyadınız]
-    İletişim: ornek@email.com
+    Geliştirici: Emirhan Şık
+    İletişim: hansk5552@gmail.com
     `);
 });
 
-// Dark Mode Yönetim Sistemi
-function initDarkMode() {
-    // Dark mode durumunu kontrol et
-    const isDarkMode = localStorage.getItem('darkMode') === 'enabled';
-    
-    // Dark mode toggle butonu oluştur
-    const darkModeToggle = document.createElement('button');
-    darkModeToggle.className = 'floating-btn dark-mode-toggle';
-    darkModeToggle.id = 'darkModeToggle';
-    darkModeToggle.innerHTML = isDarkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-    darkModeToggle.title = 'Tema Değiştir';
-    
-    // Floating actions container'ına ekle
-    const floatingActions = document.querySelector('.floating-actions');
-    if (floatingActions) {
-        floatingActions.insertBefore(darkModeToggle, floatingActions.firstChild);
-    } else {
-        // Floating actions yoksa oluştur
-        const floatingContainer = document.createElement('div');
-        floatingContainer.className = 'floating-actions';
-        floatingContainer.appendChild(darkModeToggle);
-        document.body.appendChild(floatingContainer);
-    }
+// Karanlık Mod Yönetim Sistemi
+function karanlıkModBaslat() {
+    const karanlıkModDurumu = localStorage.getItem('karanlıkMod') === 'aktif';
+    const temaDegistirButon = document.getElementById('temaDegistirButon');
     
     // İlk yükleme durumunu ayarla
-    if (isDarkMode) {
-        document.body.classList.add('dark-mode');
+    if (karanlıkModDurumu) {
+        document.body.classList.add('karanlik-mod');
+        if (temaDegistirButon) {
+            temaDegistirButon.innerHTML = '<i class="fas fa-sun"></i>';
+        }
     }
     
     // Toggle event listener
-    darkModeToggle.addEventListener('click', function() {
-        toggleDarkMode();
-    });
+    if (temaDegistirButon) {
+        temaDegistirButon.addEventListener('click', function() {
+            karanlıkModDegistir();
+        });
+    }
     
     // Sistem tema tercihini kontrol et
-    if (!localStorage.getItem('darkMode')) {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        if (prefersDark) {
-            enableDarkMode();
+    if (!localStorage.getItem('karanlıkMod')) {
+        const sistemKaranlıkTercih = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (sistemKaranlıkTercih) {
+            karanlıkModAktif();
         }
     }
     
     // Sistem tema değişikliklerini dinle
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        if (!localStorage.getItem('darkMode')) {
+        if (!localStorage.getItem('karanlıkMod')) {
             if (e.matches) {
-                enableDarkMode();
+                karanlıkModAktif();
             } else {
-                disableDarkMode();
+                karanlıkModPasif();
             }
         }
     });
 }
 
-function toggleDarkMode() {
-    const isDarkMode = document.body.classList.contains('dark-mode');
+function karanlıkModDegistir() {
+    const karanlıkModAktifMi = document.body.classList.contains('karanlik-mod');
     
-    if (isDarkMode) {
-        disableDarkMode();
+    if (karanlıkModAktifMi) {
+        karanlıkModPasif();
     } else {
-        enableDarkMode();
+        karanlıkModAktif();
     }
 }
 
-function enableDarkMode() {
-    document.body.classList.add('dark-mode');
-    localStorage.setItem('darkMode', 'enabled');
+function karanlıkModAktif() {
+    document.body.classList.add('karanlik-mod');
+    localStorage.setItem('karanlıkMod', 'aktif');
     
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    if (darkModeToggle) {
-        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-    }
-    
-    // Smooth transition
-    document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
-    setTimeout(() => {
-        document.body.style.transition = '';
-    }, 300);
-}
-
-function disableDarkMode() {
-    document.body.classList.remove('dark-mode');
-    localStorage.setItem('darkMode', 'disabled');
-    
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    if (darkModeToggle) {
-        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    const temaDegistirButon = document.getElementById('temaDegistirButon');
+    if (temaDegistirButon) {
+        temaDegistirButon.innerHTML = '<i class="fas fa-sun"></i>';
     }
     
     // Smooth transition
@@ -865,61 +538,18 @@ function disableDarkMode() {
     }, 300);
 }
 
-// Service Worker kaydı (PWA özellikleri için - isteğe bağlı)
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js')
-            .then(function(registration) {
-                console.log('ServiceWorker kayıt başarılı: ', registration.scope);
-            })
-            .catch(function(err) {
-                console.log('ServiceWorker kayıt başarısız: ', err);
-            });
-    });
-}
-
-// Dark mode toggle (isteğe bağlı özellik)
-function darkModeToggle() {
-    const darkModeButton = document.createElement('button');
-    darkModeButton.innerHTML = '<i class="fas fa-moon"></i>';
-    darkModeButton.className = 'dark-mode-toggle';
-    darkModeButton.style.cssText = `
-        position: fixed;
-        top: 50%;
-        right: 30px;
-        width: 50px;
-        height: 50px;
-        background: var(--koyu-renk);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        font-size: 18px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        z-index: 999;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    `;
+function karanlıkModPasif() {
+    document.body.classList.remove('karanlik-mod');
+    localStorage.setItem('karanlıkMod', 'pasif');
     
-    document.body.appendChild(darkModeButton);
-    
-    // Sayfa yeniden yüklendiğinde dark mode durumunu koru
-    if (localStorage.getItem('darkMode') === 'enabled') {
-        document.body.classList.add('dark-mode');
-        darkModeButton.innerHTML = '<i class="fas fa-sun"></i>';
+    const temaDegistirButon = document.getElementById('temaDegistirButon');
+    if (temaDegistirButon) {
+        temaDegistirButon.innerHTML = '<i class="fas fa-moon"></i>';
     }
     
-    darkModeButton.addEventListener('click', function() {
-        document.body.classList.toggle('dark-mode');
-        
-        if (document.body.classList.contains('dark-mode')) {
-            localStorage.setItem('darkMode', 'enabled');
-            darkModeButton.innerHTML = '<i class="fas fa-sun"></i>';
-        } else {
-            localStorage.setItem('darkMode', 'disabled');
-            darkModeButton.innerHTML = '<i class="fas fa-moon"></i>';
-        }
-    });
+    // Smooth transition
+    document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+    setTimeout(() => {
+        document.body.style.transition = '';
+    }, 300);
 }
-
-// Dark mode'u etkinleştir (isteğe bağlı)
-// darkModeToggle();
