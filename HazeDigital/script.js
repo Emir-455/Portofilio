@@ -477,6 +477,7 @@ function karanlıkModAktif() {
     const temaDegistirButon = document.getElementById('temaDegistirButon');
     if (temaDegistirButon) {
         temaDegistirButon.innerHTML = '<i class="fas fa-sun"></i>';
+        temaDegistirButon.title = 'Açık Moda Geç';
     }
     
     // Smooth transition
@@ -493,6 +494,7 @@ function karanlıkModPasif() {
     const temaDegistirButon = document.getElementById('temaDegistirButon');
     if (temaDegistirButon) {
         temaDegistirButon.innerHTML = '<i class="fas fa-moon"></i>';
+        temaDegistirButon.title = 'Karanlık Moda Geç';
     }
     
     // Smooth transition

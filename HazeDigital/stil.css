@@ -98,6 +98,9 @@ body.karanlik-mod .bilgi-etiket {
     color: var(--karanlik-metin);
 }
 
+body.karanlik-mod .ana-sayfa {
+    background: linear-gradient(135deg, var(--karanlik-arkaplan) 0%, var(--karanlik-yuzey) 100%);
+}
 body.karanlik-mod .navigasyon {
     background-color: rgba(15, 23, 42, 0.95);
 }
@@ -106,6 +109,13 @@ body.karanlik-mod .navigasyon.scrolled {
     background-color: var(--karanlik-yuzey);
 }
 
+body.karanlik-mod .hakkimda-bolumu {
+    background-color: var(--karanlik-yuzey);
+}
+
+body.karanlik-mod .yetenekler-bolumu {
+    background-color: var(--karanlik-yuzey);
+}
 body.karanlik-mod .kategori-kutu,
 body.karanlik-mod .proje-kutu,
 body.karanlik-mod .istatistik-kutu,
@@ -115,6 +125,9 @@ body.karanlik-mod .iletisim-formu {
     border-color: rgba(148, 163, 184, 0.2);
 }
 
+body.karanlik-mod .bilgi-satiri {
+    background: var(--karanlik-arkaplan);
+}
 body.karanlik-mod .form-input,
 body.karanlik-mod .form-textarea {
     background-color: rgba(30, 41, 59, 0.5);
@@ -151,6 +164,10 @@ body.karanlik-mod .dil-buton:hover {
     background-color: rgba(37, 99, 235, 0.1);
 }
 
+body.karanlik-mod .dil-dropdown {
+    background: var(--karanlik-yuzey);
+    border-color: rgba(148, 163, 184, 0.2);
+}
 body.karanlik-mod .dil-secenegi {
     color: var(--karanlik-metin);
 }
@@ -164,6 +181,20 @@ body.karanlik-mod .hamburger .bar {
     background-color: var(--karanlik-metin);
 }
 /* Scroll Progress Bar */
+/* Karanlık Mod - Footer */
+body.karanlik-mod .footer {
+    background-color: var(--karanlik-arkaplan);
+}
+
+body.karanlik-mod .footer-metin {
+    color: var(--karanlik-metin);
+}
+
+/* Karanlık Mod - Proje Overlay */
+body.karanlik-mod .proje-baslik,
+body.karanlik-mod .proje-aciklama {
+    color: white;
+}
 .scroll-progress {
     position: fixed;
     top: 0;
