@@ -200,6 +200,81 @@ body.karanlik-mod .form-textarea::placeholder {
     gap: 1rem;
 }
 
+/* Dil Seçici */
+.dil-secici {
+    position: relative;
+}
+
+.dil-buton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid rgba(37, 99, 235, 0.3);
+    border-radius: var(--border-radius-kucuk);
+    color: var(--birincil-renk);
+    cursor: pointer;
+    transition: all var(--gecis-orta);
+    font-size: 0.9rem;
+}
+
+.dil-buton:hover {
+    background-color: rgba(37, 99, 235, 0.1);
+    border-color: var(--birincil-renk);
+}
+
+.dil-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius-kucuk);
+    box-shadow: var(--golge-orta);
+    min-width: 150px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all var(--gecis-orta);
+    z-index: 1001;
+}
+
+body.karanlik-mod .dil-dropdown {
+    background: var(--karanlik-yuzey);
+    border-color: rgba(148, 163, 184, 0.2);
+}
+
+.dil-dropdown.goster {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dil-secenegi {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: background-color var(--gecis-hizli);
+}
+
+.dil-secenegi:hover {
+    background-color: rgba(37, 99, 235, 0.1);
+}
+
+.dil-secenegi.aktif {
+    background-color: rgba(37, 99, 235, 0.15);
+    color: var(--birincil-renk);
+}
+
+.bayrak-ikonu {
+    width: 20px;
+    height: auto;
+    border-radius: 2px;
+}
+
 .tema-degistir-buton {
     width: 40px;
     height: 40px;

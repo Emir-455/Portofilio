@@ -1,11 +1,5 @@
 // DOM Yüklendikten sonra çalışacak fonksiyonlar
 document.addEventListener('DOMContentLoaded', function() {
-    // Dil yöneticisini başlat
-    window.languageManager = new LanguageManager();
-    
-    // Dark mode yöneticisini başlat
-    karanlıkModBaslat();
-    
     // Değişkenler
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.getElementById('navMenu');
@@ -15,17 +9,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const temaDegistirButon = document.getElementById('temaDegistirButon');
     const yukariCikButon = document.getElementById('yukariCikButon');
     
+    // Dil yöneticisini başlat
+    dilYoneticisiniBaslat();
+    
+    // Karanlık mod yöneticisini başlat
+    karanlıkModBaslat();
+    
     // Hamburger menu işlevselliği
-    hamburger.addEventListener('click', function() {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-    });
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+    }
     
     // Navigasyon linklerine tıklandığında menu kapanması
     navBaglantilar.forEach(link => {
         link.addEventListener('click', function() {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+            if (hamburger && navMenu) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
         });
     });
     
@@ -42,17 +46,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Navigasyon arka plan efekti
-        if (scrollTop > 50) {
-            navigasyon.classList.add('scrolled');
-        } else {
-            navigasyon.classList.remove('scrolled');
+        if (navigasyon) {
+            if (scrollTop > 50) {
+                navigasyon.classList.add('scrolled');
+            } else {
+                navigasyon.classList.remove('scrolled');
+            }
         }
         
         // Yukarı çık butonu görünürlüğü
-        if (scrollTop > 300) {
-            yukariCikButon.classList.add('goster');
-        } else {
-            yukariCikButon.classList.remove('goster');
+        if (yukariCikButon) {
+            if (scrollTop > 300) {
+                yukariCikButon.classList.add('goster');
+            } else {
+                yukariCikButon.classList.remove('goster');
+            }
         }
         
         // Aktif bölümü belirleme
@@ -63,12 +71,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Yukarı çık butonu işlevselliği
-    yukariCikButon.addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
+    if (yukariCikButon) {
+        yukariCikButon.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
-    });
+    }
     
     // Smooth scroll fonksiyonu
     navBaglantilar.forEach(link => {
@@ -211,28 +221,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }, 200);
                 });
-                
-                // Proje sayacını güncelle
-                projeSayaciniGuncelle(filtre);
             });
         });
-    }
-    
-    // Proje sayacını güncelle
-    function projeSayaciniGuncelle(filtre) {
-        const sayacElement = document.querySelector('.proje-sayaci .sayac-sayi');
-        if (sayacElement) {
-            const toplamProje = document.querySelectorAll('.proje-kutu').length;
-            let sayac = 0;
-            
-            if (filtre === '*') {
-                sayac = toplamProje;
-            } else {
-                sayac = document.querySelectorAll(`.proje-kutu${filtre}`).length;
-            }
-            
-            sayacElement.textContent = sayac;
-        }
     }
     
     // Typing animasyonu
@@ -279,22 +269,6 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(typeWriter, 1000);
     }
     
-    // Proje sayacı oluştur
-    function projeSayaciOlustur() {
-        const toplamProje = document.querySelectorAll('.proje-kutu').length;
-        const sayacElement = document.createElement('div');
-        sayacElement.className = 'proje-sayaci';
-        sayacElement.innerHTML = `
-            <span class="sayac-sayi">${toplamProje}</span> 
-            <span class="sayac-metin" data-translate="projects.project">Proje</span>
-        `;
-        
-        const projelerBaslik = document.querySelector('#projeler .bolum-basligi');
-        if (projelerBaslik) {
-            projelerBaslik.appendChild(sayacElement);
-        }
-    }
-    
     // İletişim formu işleme
     if (iletisimForm) {
         iletisimForm.addEventListener('submit', function(e) {
@@ -314,15 +288,12 @@ document.addEventListener('DOMContentLoaded', function() {
     yetenekBarAnimasyonu();
     projeFiltreSistemi();
     yazmaAnimasyonu();
-    projeSayaciOlustur();
     
     // İlk yükleme için animasyonları çalıştır
     gorunmeAnimasyonlari();
     
     // İletişim formu gönderme fonksiyonu
     function gonderIletisimFormu(form) {
-        const t = window.languageManager.translations[window.languageManager.currentLanguage];
-        
         // Form verilerini al
         const formVerisi = new FormData(form);
         const veri = {
@@ -334,27 +305,27 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Basit doğrulama
         if (!veri.ad || !veri.email || !veri.konu || !veri.mesaj) {
-            gosterBildirim(t.notifications.fillAllFields, 'error');
+            gosterBildirim('Lütfen tüm alanları doldurun.', 'error');
             return;
         }
         
         // Email doğrulaması
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(veri.email)) {
-            gosterBildirim(t.notifications.invalidEmail, 'error');
+            gosterBildirim('Lütfen geçerli bir e-posta adresi girin.', 'error');
             return;
         }
         
         // Mesaj uzunluğu kontrolü
         if (veri.mesaj.length < 10) {
-            gosterBildirim(t.notifications.messageTooShort, 'error');
+            gosterBildirim('Mesaj çok kısa. En az 10 karakter yazın.', 'error');
             return;
         }
         
         // Buton durumunu güncelle
         const buton = form.querySelector('.form-buton');
         const eskiMetin = buton.innerHTML;
-        buton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t.contact.form.sending}`;
+        buton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
         buton.disabled = true;
         
         // AJAX ile PHP'ye gönder
@@ -365,20 +336,15 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                gosterBildirim(t.notifications.success, 'success');
+                gosterBildirim('✅ Mesajınız başarıyla gönderildi!', 'success');
                 form.reset();
             } else {
-                gosterBildirim(t.notifications.error, 'error');
-                if (data.errors) {
-                    data.errors.forEach(error => {
-                        console.error('Form Hatası:', error);
-                    });
-                }
+                gosterBildirim('❌ Mesaj gönderilirken bir hata oluştu.', 'error');
             }
         })
         .catch(error => {
             console.error('Ağ Hatası:', error);
-            gosterBildirim(t.notifications.networkError, 'error');
+            gosterBildirim('❌ Bağlantı hatası oluştu.', 'error');
         })
         .finally(() => {
             buton.innerHTML = eskiMetin;
@@ -429,47 +395,23 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Klavye navigasyonu
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-            hamburger.classList.remove('active');
+        if (e.key === 'Escape' && navMenu && navMenu.classList.contains('active')) {
+            if (hamburger) hamburger.classList.remove('active');
             navMenu.classList.remove('active');
         }
     });
     
     // Dış tıklama ile mobil menüyü kapat
     document.addEventListener('click', function(e) {
-        const isClickInsideNav = navigasyon.contains(e.target);
-        
-        if (!isClickInsideNav && navMenu.classList.contains('active')) {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
+        if (navigasyon && navMenu) {
+            const isClickInsideNav = navigasyon.contains(e.target);
+            
+            if (!isClickInsideNav && navMenu.classList.contains('active')) {
+                if (hamburger) hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
         }
     });
-    
-    // Performance optimization: Debounce scroll events
-    function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-    
-    // Console'da hoş geldin mesajı
-    console.log(`
-    🎨 Portfolyo Web Sitesi
-    ✨ Türkçe sınıf isimleri ile geliştirilmiştir
-    🚀 Modern teknolojiler kullanılmıştır
-    📱 Mobil uyumlu responsive tasarım
-    🌍 Çoklu dil desteği (TR, EN, ES, ZH)
-    🌙 Dark/Light mode desteği
-    
-    Geliştirici: Emirhan Şık
-    İletişim: hansk5552@gmail.com
-    `);
 });
 
 // Karanlık Mod Yönetim Sistemi
@@ -552,4 +494,67 @@ function karanlıkModPasif() {
     setTimeout(() => {
         document.body.style.transition = '';
     }, 300);
+}
+
+// Dil Yönetim Sistemi
+function dilYoneticisiniBaslat() {
+    const mevcutDil = localStorage.getItem('secilenDil') || 'tr';
+    const dilButon = document.getElementById('dilButon');
+    const dilDropdown = document.getElementById('dilDropdown');
+    const dilSecenekleri = document.querySelectorAll('.dil-secenegi');
+    
+    // İlk dil ayarını yap
+    dilGuncelle(mevcutDil);
+    
+    // Dil butonu tıklama
+    if (dilButon) {
+        dilButon.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (dilDropdown) {
+                dilDropdown.classList.toggle('goster');
+            }
+        });
+    }
+    
+    // Dil seçeneklerine tıklama
+    dilSecenekleri.forEach(secenek => {
+        secenek.addEventListener('click', function() {
+            const secilenDil = this.getAttribute('data-dil');
+            dilGuncelle(secilenDil);
+            if (dilDropdown) {
+                dilDropdown.classList.remove('goster');
+            }
+        });
+    });
+    
+    // Dışarı tıklandığında dropdown'u kapat
+    document.addEventListener('click', function() {
+        if (dilDropdown) {
+            dilDropdown.classList.remove('goster');
+        }
+    });
+}
+
+function dilGuncelle(dil) {
+    localStorage.setItem('secilenDil', dil);
+    
+    // Mevcut dil göstergesini güncelle
+    const mevcutDilSpan = document.querySelector('.mevcut-dil');
+    if (mevcutDilSpan) {
+        mevcutDilSpan.textContent = dil.toUpperCase();
+    }
+    
+    // Aktif seçeneği güncelle
+    const dilSecenekleri = document.querySelectorAll('.dil-secenegi');
+    dilSecenekleri.forEach(secenek => {
+        secenek.classList.remove('aktif');
+        if (secenek.getAttribute('data-dil') === dil) {
+            secenek.classList.add('aktif');
+        }
+    });
+    
+    // Çevirileri güncelle (languages.js dosyasından)
+    if (window.languageManager) {
+        window.languageManager.changeLanguage(dil);
+    }
 }

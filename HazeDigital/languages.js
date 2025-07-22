@@ -530,9 +530,7 @@ class LanguageManager {
     }
     
     init() {
-        this.createLanguageSelector();
         this.updateContent();
-        this.bindEvents();
     }
     
     createLanguageSelector() {

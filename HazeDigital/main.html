@@ -29,6 +29,33 @@
                 <li><a href="#iletisim" class="nav-baglanti" data-translate="nav.contact">İletişim</a></li>
             </ul>
             <div class="nav-butonlar">
+                <!-- Dil Seçici -->
+                <div class="dil-secici">
+                    <button class="dil-buton" id="dilButon">
+                        <i class="fas fa-globe"></i>
+                        <span class="mevcut-dil">TR</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dil-dropdown" id="dilDropdown">
+                        <div class="dil-secenegi aktif" data-dil="tr">
+                            <img src="https://flagcdn.com/w20/tr.png" alt="Türkçe" class="bayrak-ikonu">
+                            <span>Türkçe</span>
+                        </div>
+                        <div class="dil-secenegi" data-dil="en">
+                            <img src="https://flagcdn.com/w20/us.png" alt="English" class="bayrak-ikonu">
+                            <span>English</span>
+                        </div>
+                        <div class="dil-secenegi" data-dil="es">
+                            <img src="https://flagcdn.com/w20/es.png" alt="Español" class="bayrak-ikonu">
+                            <span>Español</span>
+                        </div>
+                        <div class="dil-secenegi" data-dil="zh">
+                            <img src="https://flagcdn.com/w20/cn.png" alt="中文" class="bayrak-ikonu">
+                            <span>中文</span>
+                        </div>
+                    </div>
+                </div>
+                
                 <button class="tema-degistir-buton" id="temaDegistirButon" title="Tema Değiştir">
                     <i class="fas fa-moon"></i>
                 </button>
